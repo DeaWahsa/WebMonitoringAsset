@@ -141,7 +141,7 @@ $idp = query("SELECT * FROM periode WHERE id_unit = '$id'");
                 </center>
             </div>
             <center><a href="create.php?nik=<?php echo $nik ?>" class="create" aria-hidden="true">Create Data</a></center>
-            <form>
+            <form class="form-inline" method="POST" action="">
                 <div class="form-group row">
                     <label for="inputBulan" class="col-sm-2 col-md-2 col-lg-1 col-form-label">Bulan</label>
                     <div class="col-sm-10 col-md-4 col-lg-3">
@@ -176,17 +176,9 @@ $idp = query("SELECT * FROM periode WHERE id_unit = '$id'");
                 <div class="form-group row">
                     <label class="col-sm-2 col-md-2 col-lg-1 col-form-label"></label>
                     <div class="col-sm-10 col-md-4 col-lg-3">
-                        <button type="submit" class="btn btn-primary">Terapkan</button>
+                        <button class="btn search btn-primary" name="search">Search</button>
                     </div>
                 </div>
-            </form>
-            <form class="form-inline" method="POST" action="">
-                <label>Date:</label>
-                <input type="date" class="form-control" placeholder="Start" name="date1" value="<?php echo isset($_POST['date1']) ? $_POST['date1'] : '' ?>" />
-                <label>To</label>
-                <input type="date" class="form-control" placeholder="End" name="date2" value="<?php echo isset($_POST['date2']) ? $_POST['date2'] : '' ?>" />
-                <button class="btn search btn-primary" name="search">Search</button>
-
             </form>
             <div class="box-laporan">
                 <br>
