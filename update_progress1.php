@@ -1,15 +1,25 @@
-<?php
-
+<?php 
 require 'function.php';
-$nik = $_GET['id'];
-$user = query("SELECT * FROM user WHERE id_unit = '$nik'");
-if (isset($_POST['Submit'])) {
-  if (TambahData1($_POST) > 0) {
-    header("Location:laporan_detail.php");
-  } else {
-    echo 'Data Gagal Ditambahkan';
-  }
+$id = $_GET['id'];
+$nik = $_GET['nik'];
+$periode = $_GET['periode'];
+$unit = query("SELECT * FROM `user` WHERE username = '$nik' LIMIT 1");
+$idu = $unit['id_unit'];
+$progress = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
+function alert($msg) {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
+    
 }
+if (isset($_POST['update'])) {
+    if (updateProgress1($_POST) > 0) {
+        alert("Data Berhasil Ditambahkan");
+        header("Location:laporan_detail1.php?id=$idu&nik=$nik&periode=$periode");
+       
+    } else {
+        alert('Data Gagal Diupdate');
+        header("Location:laporan_detail1.php?id=$idu&nik=$nik&periode=$periode");
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +28,7 @@ if (isset($_POST['Submit'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitoring Asset</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.51.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     
     <!-- CSS only -->
@@ -80,7 +90,6 @@ if (isset($_POST['Submit'])) {
             padding: 20px;
         }
 
-        
         .title.d-flex p {
             color: white;
             width: 200px;
@@ -163,10 +172,10 @@ if (isset($_POST['Submit'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="name nav-item back">
-                    <a href="data.php" class="btn back" aria-hidden="true">Back</a>
-                </li> 
+                    <a href="laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date("j F Y", strtotime($periode)) ?>" class="btn back" aria-hidden="true">Back</a>
+                </li>  
                 <li class="name nav-item">
-                    <a href="login.php" class="btn" aria-hidden="true">Sign Out</a>
+                    <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
                 </li>      
             </ul>      
         </div>
@@ -174,67 +183,33 @@ if (isset($_POST['Submit'])) {
 
     <div class="create-item">
         <form action="" method="post" enctype="multipart/form-data" class="dropzone" id="image-upload">
+            
             <h5>Progress Penanganan Permasalahan Aset</h5>
             <div class="title d-flex">
               <p>Permasalahan dan Kategori Permasalahan *</p>
               <p class="titik">:</p>
-              <textarea name="permasalahan" id="" cols="20" rows="10" require></textarea>
+              <textarea name="permasalahan" id="" cols="20" rows="10" required><?= $progress['permasalahan'] ?></textarea>
             </div>
             <div class="title d-flex">
               <p>Ringkasan Permasalahan **</p>
               <p class="titik">:</p>
-              <textarea name="ringkasan" id="" cols="20" rows="10" require></textarea>
+              <textarea name="ringkasan" id="" cols="20" rows="10" required><?= $progress['ringkasan'] ?></textarea>
             </div>
             <div class="title d-flex">
               <p>Progress Penanganan dan Rencana Tindak Lanjut ***</p>
               <p class="titik">:</p>
-              <textarea name="progress" id="" cols="20" rows="10" require></textarea>
+              <textarea name="progress" id="" cols="20" rows="10" required><?= $progress['progress'] ?></textarea>
             </div>
             <div class="title d-flex">
               <p>Isu Penting </p>
               <p class="titik">:</p>
-              <textarea name="isu" id="" cols="20" rows="10"></textarea>
+              <textarea name="isu" id="" cols="20" rows="10"><?= $progress['isu'] ?></textarea>
             </div>
 
-            <h5>Kronologis Permasalahan</h5>
-            <div class="title d-flex">
-              <p>Tanggal</p>
-              <p class="titik">:</p>
-              <input class="forum" type="text" name="tanggal" id="">
-            </div>
-            <div class="title d-flex">
-              <p>Perihal dan Keterangan</p>
-              <p class="titik">:</p>
-              <textarea name="perihal" id="" cols="20" rows="10" require></textarea>
-            </div>
-            <div class="title d-flex">
-              <p>Dokumen Pendukung</p>
-              <p class="titik">:</p>
-              <div class="cek">
-                <input type="checkbox" name="dokumen" id="" <?php if (isset($dokumen) && $dokumen=="ada") echo "checked";?> value="ada">&nbsp; Ada &nbsp; &nbsp; 
-                <input type="checkbox" name="dokumen" id="" <?php if (isset($dokumen) && $dokumen=="tidak ada") echo "checked";?> value="tidak ada">&nbsp; Tidak Ada
-              </div>
-            </div>
-            <div class="title d-flex">
-              <p>Status Dokumen </p>
-              <p class="titik">:</p>
-              <div class="cek">
-                <input type="checkbox" name="status" id="" <?php if (isset($status) && $status=="asli") echo "checked";?> value="asli">&nbsp; Asli &nbsp; &nbsp; 
-                <input type="checkbox" name="status" id="" <?php if (isset($status) && $status=="copy") echo "checked";?> value="copy">&nbsp; Copy
-              </div>
-            </div>
-            <div class="title d-flex">
-              <p>Upload Dokumen Pendukung (Bila Ada)</p>
-              <p class="titik">:</p>
-              <div class="cek">
-                <input class="forum forum1" type="file" name="file" id="">
-              </div>
-            </div>
             <div class="click">
               <div class="btn">
-                <button name="Submit" type="submit">Tambah Data</button>
+                <button name="update" type="submit">Update Data</button>
               </div>
-              
             </div>
         </form>
     </div>
@@ -244,6 +219,8 @@ if (isset($_POST['Submit'])) {
         $('input[type="checkbox"]').on('change', function() {
             $('input[name="' + this.name + '"]').not(this).prop('checked', false);
         });
+
+        
     </script>
 </body>
 </html>

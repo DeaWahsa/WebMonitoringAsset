@@ -176,7 +176,7 @@ if (isset($_POST['Submit'])) {
             <div class="title d-flex">
               <p>Periode Mentoring</p>
               <p class="titik">:</p>
-              <input class="forum" type="date" name="periode" id="">
+              <input class="forum" type="text" name="periode" id="">
             </div>
             <br>
             <h5>Progress Penanganan Permasalahan Aset</h5>
@@ -205,7 +205,7 @@ if (isset($_POST['Submit'])) {
             <div class="title d-flex">
               <p>Tanggal</p>
               <p class="titik">:</p>
-              <input class="forum" type="date" name="tanggal" id="">
+              <input class="forum" type="text" name="tanggal" id="">
             </div>
             <div class="title d-flex">
               <p>Perihal dan Keterangan</p>

@@ -1,50 +1,63 @@
+<?php
+
+include 'function.php';
+$id = $_GET['id'];
+$nik = $_GET['nik'];
+$per = $_GET['periode'];
+$history = querys("SELECT * FROM history WHERE id_progress = $id");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitoring Asset</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <style> 
-        body{
+    <style>
+        body {
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-        .navbar .collapse1 ul li a{
+
+        .navbar .collapse1 ul li a {
             color: #E13838;
             font-weight: 700;
             text-decoration: none;
             font-size: 20px;
         }
 
-        .navbar .collapse1 ul li a:hover{
+        .navbar .collapse1 ul li a:hover {
             color: #f98989;
-            
+
         }
-        .box-laporan{
+
+        .box-laporan {
             margin-left: 20%;
             font-size: 25px;
         }
 
-        .box-laporan ul li{
+        .box-laporan ul li {
             color: #f98989;
         }
-        .box-laporan ul li a{
+
+        .box-laporan ul li a {
             text-decoration: none;
-            color:#E13838 !important;
+            color: #E13838 !important;
         }
-        .box-laporan ul li a:hover{
+
+        .box-laporan ul li a:hover {
             color: #f98989 !important;
         }
 
@@ -57,11 +70,12 @@
             text-decoration: none;
             padding: 10px 30px;
         }
-        .data-item a.create:hover{
+
+        .data-item a.create:hover {
             background: #f98989;
         }
 
-        
+
         .data-item a.create {
             background: #E13838;
             border-radius: 20px;
@@ -71,35 +85,38 @@
             text-decoration: none;
             padding: 10px 30px;
         }
-        .data-item a.create:hover{
+
+        .data-item a.create:hover {
             background: #f98989;
         }
-        .laporan-detail{
+
+        .laporan-detail {
             padding-top: 50px;
             padding-left: 50px;
             padding-right: 50px;
         }
 
-        .laporan-detail h1{
+        .laporan-detail h1 {
             text-align: center;
             font-weight: 700;
             font-size: 20px;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        .laporan-detail p{
+        .laporan-detail p {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 0px !important;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        table{
+        table {
             margin: 20px auto;
             border-collapse: collapse;
             width: 1200px;
         }
-        table th{
+
+        table th {
             background-color: #E13838;
             color: white;
             font-weight: 500;
@@ -110,14 +127,15 @@
             font-weight: 600;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-        table td{
+
+        table td {
             border: 1px solid black;
             text-align: center;
             padding: 0px 5px;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        table a{
+        table a {
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             text-decoration: none;
             color: #E13838;
@@ -126,23 +144,24 @@
             margin: 5px 10px;
         }
 
-        table a:hover{
+        table a:hover {
             text-decoration: none;
             color: #f98989;
         }
-        li.nav-item.nav{
+
+        li.nav-item.nav {
             background-color: white !important;
         }
 
-        li.nav-item.nav a{
+        li.nav-item.nav a {
             color: #E13838 !important;
         }
 
-        li.nav-item.nav a:hover{
+        li.nav-item.nav a:hover {
             color: #f98989 !important;
         }
 
-        .nav-item .back{
+        .nav-item .back {
             padding: 5px 10px;
             background: none !important;
             border-color: #E13838;
@@ -154,27 +173,27 @@
             padding: 0px 20px;
         }
 
-        p{
+        p {
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        a.btn.back{
+        a.btn.back {
             color: #e13838 !important;
             background: none !important;
             border: none !important;
         }
 
-        a.btn.back:hover{
+        a.btn.back:hover {
             border: none !important;
         }
 
-        td.history a{
+        td.history a {
             text-align: center;
             padding: 0 !important;
             margin: 0 !important;
         }
 
-        h1{
+        h1 {
             color: #e13838;
             font-weight: 700;
             font-size: 35px;
@@ -190,7 +209,7 @@
             border-radius: 10px;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             overflow-y: scroll;
-            overflow:auto;
+            overflow: auto;
         }
 
         p.tanggal {
@@ -209,79 +228,69 @@
         }
     </style>
 </head>
+
 <body>
-<section class="data" style="background: white !important; width: 100%; min-height: 100vh;">
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="navbar-header">
-            <img src="foto/logo.png" alt="">
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                
-                <li class="name nav-item back">
-                    <a href="data_all.php?nik=<?= $nik ?>" class="btn back" aria-hidden="true">Back</a>
-                </li> 
-                <li class="name nav-item">
-                    <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
-                </li>      
-            </ul>      
-        </div>
-    </nav>
+    <section class="data" style="background: white !important; width: 100%; min-height: 100vh;">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-header">
+                <img src="foto/logo.png" alt="">
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
 
-    <div class="history">
-        <center>
-            <h1>HISTORY</h1>
-        </center>
-        <div class="history-item" >
-            <p class="nama"><i class="fa fa-user"></i> Witel Makassar</p>
-            <p class="tanggal">Edited: 10 Oktober 2022, 10.00 AM</p>
+                    <li class="name nav-item back">
+                        <a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= date("F Y", strtotime($per)) ?>" class="btn back" aria-hidden="true">Back</a>
+                    </li>
+                    <li class="name nav-item">
+                        <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-            <table border="1">
-            <tr class="th" bgcolor='#e13838'>
-                <th>No</th>
-                <th>Permasalahan & Kategori Permasalahan*</th>
-                <th>Ringkasan Permasalahan**</th>
-                <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                <th>Isu Penting</th>
-            </tr>
-            
-            <tr> 
-                    <td>1</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-            </tr>
-            </table>
-        </div>
-        <br>
-        <div class="history-item">
-            <p class="nama"><i class="fa fa-user"></i> Witel Makassar</p>
-            <p class="tanggal">Edited: 8 Oktober 2022, 10.00 AM</p>
+        <div class="history">
+            <center>
+                <h1>HISTORY</h1>
+            </center>
+            <?php
+            $i = 1;
+            foreach ($history as $h) :
+            ?>
+                <div class="history-item">
+                    <?php
+                    $id_unit = $h['id_unit'];
+                    $names = query("SELECT nama_unit FROM unit WHERE id_unit = $id_unit");
+                    $nama = $names['nama_unit'];
+                    ?>
+                    <p class="nama"><i class="fa fa-user"></i> <?php echo $nama  ?></p>
+                    <p class="tanggal"><?php echo $h['ket'] ?> <?= date("l, j F Y, H:i A", strtotime($h["last_edit"])) ?></p>
 
-            <table border="1">
-            <tr class="th" bgcolor='#e13838'>
-                <th>No</th>
-                <th>Permasalahan & Kategori Permasalahan*</th>
-                <th>Ringkasan Permasalahan**</th>
-                <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                <th>Isu Penting</th>
-            </tr>
-            
-            <tr> 
-                    <td>1</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-                    <td>Permasalahan status tanah jl. palap kendari dengan TNI AD (witel sultra)</td>
-            </tr>
-            </table>
+                    <table border="1">
+                        <tr class="th" bgcolor='#e13838'>
+                            <th>No</th>
+                            <th>Permasalahan & Kategori Permasalahan*</th>
+                            <th>Ringkasan Permasalahan**</th>
+                            <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
+                            <th>Isu Penting</th>
+                        </tr>
+
+                        <tr>
+                            <td><?php echo $i++ ?></td>
+                            <td><?php echo $h['permasalahan'] ?></td>
+                            <td><?php echo $h['ringkasan'] ?></td>
+                            <td><?php echo $h['progress'] ?></td>
+                            <td><?php echo $h['isu'] ?></td>
+                        </tr>
+                    </table>
+                </div>
+            <?php endforeach ?>
+            <br>
+
         </div>
-    </div>
 
 </body>
+
 </html>

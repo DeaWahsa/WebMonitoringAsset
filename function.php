@@ -99,7 +99,8 @@ function TambahData1($data)
     $conn = koneksi();
     $id = $_GET['id'];
     $nik = $_GET['nik'];
-    $user = query("SELECT * FROM user WHERE id_unit = '$id'");
+    $user = query("SELECT * FROM user WHERE username = '$nik' LIMIT 1");
+    $idu = $user['id_unit'];
     $periode = $_GET['periode'];
     $permasalahan = htmlspecialchars($data['permasalahan']);
     $ringkasan = htmlspecialchars($data['ringkasan']);
@@ -112,12 +113,19 @@ function TambahData1($data)
     $direktori = "docs/";
     $lampiran = $_FILES['file']['name'];
     move_uploaded_file($_FILES['file']['tmp_name'], $direktori . $lampiran);
-    
+
+    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
+
     $query_laporan = "INSERT INTO progress_permasalahan VALUES ('', '$periode', '$id', '$permasalahan', '$ringkasan', '$progress', '$isu')";
     mysqli_query($conn, $query_laporan);
 
     $query_kronologis = "INSERT INTO kronologis VALUES ('', '$periode', '$id', '$tanggal', '$perihal', '$cek', '$status', '$lampiran')";
     mysqli_query($conn, $query_kronologis);
+
+    $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$cek', '$status', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
+
     header("Location:laporan_detail.php?id=$id&nik=$nik&periode=date('j F Y', strtotime($periode))");
 }
 
@@ -125,6 +133,8 @@ function updateProgress($id){
     
     $conn = koneksi();
     $nik = $_GET['nik'];
+    $user = query("SELECT * FROM user WHERE username = '$nik' LIMIT 1");
+    $idu = $user['id_unit'];
     $per = $_GET['periode'];
     $id = $_GET['id'];
     $permasalahan = $_POST['permasalahan'];
@@ -137,8 +147,39 @@ function updateProgress($id){
                 progress = '$progress',
                 isu = '$isu' WHERE id_progress = '$id'";
     mysqli_query($conn, $query) or die (mysqli_error($conn));
+
+    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
+
     return mysqli_affected_rows($conn);
     header("Location:laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date('j F Y', strtotime($per)) ?>");
+}
+
+function updateProgress1($id)
+{
+
+    $conn = koneksi();
+    $nik = $_GET['nik'];
+    $user = query("SELECT * FROM user WHERE username = '$nik' LIMIT 1");
+    $idu = $user['id_unit'];
+    $per = $_GET['periode'];
+    $id = $_GET['id'];
+    $permasalahan = $_POST['permasalahan'];
+    $ringkasan = $_POST['ringkasan'];
+    $progress = $_POST['progress'];
+    $isu = $_POST['isu'];
+
+
+    $updates = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $updates);
+
+    $query = "UPDATE progress_permasalahan SET 
+                permasalahan = '$permasalahan',
+                ringkasan = '$ringkasan',
+                progress = '$progress',
+                isu = '$isu' WHERE id_progress = '$id'";
+    mysqli_query($conn, $query) or die(mysqli_error($conn));
+    header("Location:laporan_detail1.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<? $per ?>");
 }
 
 function upload()
@@ -165,6 +206,8 @@ function updateKronologis($id){
     $nik = $_GET['nik'];
     $per = $_GET['periode'];
     $id = $_GET['id'];
+    $user = query("SELECT * FROM user WHERE username = '$nik' LIMIT 1");
+    $idu = $user['id_unit'];
     $tanggal = $_POST['tanggal'];
     $perihal = $_POST['perihal'];
     $dokumen = $_POST['dokumen'];
@@ -183,6 +226,9 @@ function updateKronologis($id){
                 lampiran = '$lampiran'
                  WHERE id_kronologis = '$id'";
     mysqli_query($conn, $query) or die (mysqli_error($conn));
+
+    $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$dokumen', '$status' , '$per', '$id', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
     return mysqli_affected_rows($conn);
     header("Location:laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date('j F Y', strtotime($per)) ?>");
 }
