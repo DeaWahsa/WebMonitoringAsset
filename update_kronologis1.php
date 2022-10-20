@@ -14,11 +14,11 @@ function alert($msg) {
 if (isset($_POST['update'])) {
     if (updateKronologis($_POST) > 0) {
         alert("Data Berhasil Ditambahkan");
-        header("Location:laporan_detail.php?id=$idu&nik=$nik&periode=$periode");
+        header("Location:laporan_detail1.php?id=$idu&nik=$nik&periode=$periode");
        
     } else {
         alert('Data Gagal Diupdate');
-        header("Location:laporan_detail.php?idu=$id&nik=$nik&periode=$periode");
+        header("Location:laporan_detail1.php?id=$idu&nik=$nik&periode=$periode");
     }
   }
 ?>

@@ -4,16 +4,17 @@
     $nik = $_GET['nik'];
     $user = query("SELECT * FROM user WHERE username = $nik");
 	if(ISSET($_POST['search'])){
-		$date1 = date("Y-m-d", strtotime($_POST['date1']));
-		$date2 = date("Y-m-d", strtotime($_POST['date2']));
-		$query=mysqli_query($conn, "SELECT DISTINCT periode FROM periode ORDER BY periode AND periode BETWEEN '$date1' AND '$date2'");
+		$date1 = $_POST['bulan'];
+		$date2 = $_POST['tahun'];
+		$query=mysqli_query($conn, "SELECT * FROM periode WHERE periode LIKE '%$date1%' AND  periode LIKE '%$date2%'");
 		$row=mysqli_num_rows($query);
+	
 		if($row>0){
 			while($fetch=mysqli_fetch_array($query)){
 ?>
 	<tr>
         <td><?= $i++?></td>
-        <td style="text-align: left !important"><a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= date("F Y", strtotime($fetch['periode'])) ?>">Laporan Asset Bulan <?= date("F Y", strtotime($fetch['periode'])) ?></a></td>
+        <td style="text-align: left !important"><a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= $fetch['periode'] ?>">Laporan Asset Bulan <?= $fetch['periode'] ?></a></td>
 
 	</tr>
 <?php
@@ -32,7 +33,7 @@
 ?>
 	<tr>
 		<td><?= $i++?></td>
-        <td style="text-align: left !important"><a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= date("F Y", strtotime($fetch['periode'])) ?>">Laporan Asset Bulan <?= date("F Y", strtotime($fetch['periode'])) ?></a></td>
+        <td style="text-align: left !important"><a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= $fetch['periode'] ?>">Laporan Asset Bulan <?= $fetch['periode'] ?></a></td>
                   
 	</tr>
 <?php

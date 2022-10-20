@@ -4,6 +4,8 @@ include 'function.php';
 $nik = $_GET['nik'];
 
 $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +57,9 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             border-collapse: collapse;
             width: 1000px;
             margin: 10px auto;
+            overflow-y: scroll;
+            overflow: auto;
+            overflow-x: scroll;
         }
 
         table th {
@@ -94,8 +99,9 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
         }
 
         .form-inline {
-            width: 500px;
+            width: 1000px;
             margin: 10px auto;
+            flex-direction: column;
         }
 
         button.search {
@@ -112,10 +118,17 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             color: white;
         }
 
+        button.btn.search.btn-primary:hover {
+            background: #f98989;
+            color: white;
+            animation: 1.5 ease;
+            border: none;
+        }
+
         .form-search {
-            margin-left: auto;
-            justify-content: left;
-            width: 400px;
+            margin: 5px auto;
+            justify-content: right;
+            width: 1000px;
         }
 
         input[type="search"] {
@@ -128,6 +141,33 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             padding: 0px 5px;
         }
 
+        .form-inline .form-group {
+            width: 1000px;
+        }
+
+        .form-search input {
+            width: 200px;
+            background: none;
+            border: 1px #dddd solid;
+            outline: none;
+            height: 30px;
+            font-size: 12px;
+            border-radius: 5px;
+            padding: 5px 7px;
+        }
+
+        button.tombol-cari {
+            height: 30px;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: #e13838;
+        }
+
+        .form-inline select{
+            width: 300px !important;
+        }
     </style>
 </head>
 
@@ -161,39 +201,39 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             </div>
             <center><a href="create.php?nik=<?php echo $nik ?>" class="create" aria-hidden="true">Create Data</a></center>
             <form class="form-inline" method="POST" action="">
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="inputBulan" class="col-sm-2 col-md-2 col-lg-1 col-form-label">Bulan</label>
                     <div class="col-sm-10 col-md-4 col-lg-3">
                         <select name="bulan" id="inputBulan" class="form-control">
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">Mei</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10" selected="">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
+                            <option value="Januari">Januari</option>
+                            <option value="Februari">Februari</option>
+                            <option value="Maret">Maret</option>
+                            <option value="April">April</option>
+                            <option value="Mei">Mei</option>
+                            <option value="Juni">Juni</option>
+                            <option value="Juli">Juli</option>
+                            <option value="Agustus">Agustus</option>
+                            <option value="September">September</option>
+                            <option value="Oktober">Oktober</option>
+                            <option value="November">November</option>
+                            <option value="Desember">Desember</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="inputTahun" class="col-sm-2 col-md-2 col-lg-1 col-form-label">Tahun</label>
                     <div class="col-sm-10 col-md-4 col-lg-3">
                         <select name="tahun" id="inputTahun" class="form-control">
                             <option value="2020">2020</option>
                             <option value="2021">2021</option>
-                            <option value="2022" selected="">2022</option>
+                            <option value="2022">2022</option>
                             <option value="2020">2023</option>
                             <option value="2021">2024</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label"></label>
+
+                <div class="form-group">
                     <div class="col-sm-10 col-md-4 col-lg-3">
                         <button class="btn search btn-primary" name="search">Terapkan</button>
                     </div>
@@ -202,9 +242,6 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
 
             <div class="box-laporan">
                 <br>
-                <form class="form-search" action="" method="post">
-                    <input type="search" name="" id="" placeholder="Ketikkan keyword pencarian">
-                </form>
                 <table>
                     <tr>
                         <th>No</th>

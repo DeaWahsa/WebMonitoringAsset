@@ -3,11 +3,9 @@
 include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
-$user = query("SELECT * FROM user WHERE username = $nik");
-$idu = $user['id_unit'];
 $per = $_GET['periode'];
-$history = query("SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
-$now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
+error_reporting(0);
+$history = query("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
 ?>
 
 <!DOCTYPE html>
@@ -245,7 +243,7 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
                 <ul class="navbar-nav ml-auto">
 
                     <li class="name nav-item back">
-                        <a href="laporan_detail.php?id=<?= $idu ?>&nik=<?= $nik ?>&periode=<?= $per ?>" class="btn back" aria-hidden="true">Back</a>
+                        <a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= $per ?>" class="btn back" aria-hidden="true">Back</a>
                     </li>
                     <li class="name nav-item">
                         <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
@@ -258,34 +256,6 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
             <center>
                 <h1>HISTORY</h1>
             </center>
-            <div class="history-item">
-                <?php
-                $i=1;
-                $id_unit = $now['id_unit'];
-                $names = query("SELECT nama_unit FROM unit WHERE id_unit = $id_unit");
-                $nama = $names['nama_unit'];
-                ?>
-                <p class="nama"><i class="fa fa-user"></i> <?php echo $nama  ?></p>
-                <p class="tanggal">Added New Entry Data</p>
-
-                <table border="1">
-                    <tr class="th" bgcolor='#e13838'>
-                        <th>No</th>
-                        <th>Permasalahan & Kategori Permasalahan*</th>
-                        <th>Ringkasan Permasalahan**</th>
-                        <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                        <th>Isu Penting</th>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo $i++ ?></td>
-                        <td><?php echo $now['permasalahan'] ?></td>
-                        <td><?php echo $now['ringkasan'] ?></td>
-                        <td><?php echo $now['progress'] ?></td>
-                        <td><?php echo $now['isu'] ?></td>
-                    </tr>
-                </table>
-            </div>
             <?php
             $i = 1;
             foreach ($history as $h) :
@@ -300,20 +270,44 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
                     <p class="tanggal"><?php echo $h['ket'] ?> <?= date("l, j F Y, H:i A", strtotime($h["last_edit"])) ?></p>
 
                     <table border="1">
-                        <tr class="th" bgcolor='#e13838'>
-                            <th>No</th>
-                            <th>Permasalahan & Kategori Permasalahan*</th>
-                            <th>Ringkasan Permasalahan**</th>
-                            <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                            <th>Isu Penting</th>
+                        <tr>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Tanggal</th>
+                            <th rowspan="2">Perihal dan Keterangan</th>
+                            <th colspan="2">Dokumen Pendukung**</th>
+                            <th colspan="2">Status Dokumen***</th>
+                        </tr>
+                        <tr>
+                            <th>Ada</th>
+                            <th>Tidak Ada</th>
+                            <th>Asli</th>
+                            <th>Copy</th>
                         </tr>
 
                         <tr>
                             <td><?php echo $i++ ?></td>
-                            <td><?php echo $h['permasalahan'] ?></td>
-                            <td><?php echo $h['ringkasan'] ?></td>
-                            <td><?php echo $h['progress'] ?></td>
-                            <td><?php echo $h['isu'] ?></td>
+                            <td><?php echo $h['tanggal'] ?></td>
+                            <td><?php echo $h['perihal'] ?></td>
+                            <td><?php if ($h['dokumen'] == 'ada') {
+                                    echo '√';
+                                } else {
+                                    echo ' ';
+                                } ?></td>
+                            <td><?php if ($h['dokumen'] == 'tidak ada') {
+                                    echo '√';
+                                } else {
+                                    echo ' ';
+                                } ?></td>
+                            <td><?php if ($h['status'] == 'asli') {
+                                    echo '√';
+                                } else {
+                                    echo ' ';
+                                } ?></td>
+                            <td><?php if ($h['status'] == 'copy') {
+                                    echo '√';
+                                } else {
+                                    echo ' ';
+                                } ?></td>
                         </tr>
                     </table>
                 </div>

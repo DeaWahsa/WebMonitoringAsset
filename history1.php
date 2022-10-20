@@ -4,7 +4,7 @@ include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
-$history = querys("SELECT * FROM history WHERE id_progress = $id");
+$history = querys("SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
 ?>
 
 <!DOCTYPE html>
@@ -214,7 +214,7 @@ $history = querys("SELECT * FROM history WHERE id_progress = $id");
 
         p.tanggal {
             font-size: 12px;
-            color: #dddd;
+            color: grey;
             margin-top: -10px;
             font-weight: 700;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -242,7 +242,7 @@ $history = querys("SELECT * FROM history WHERE id_progress = $id");
                 <ul class="navbar-nav ml-auto">
 
                     <li class="name nav-item back">
-                        <a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= date("F Y", strtotime($per)) ?>" class="btn back" aria-hidden="true">Back</a>
+                        <a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= $per ?>" class="btn back" aria-hidden="true">Back</a>
                     </li>
                     <li class="name nav-item">
                         <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>

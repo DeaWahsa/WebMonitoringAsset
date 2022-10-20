@@ -67,6 +67,7 @@ function login($data)
 function TambahData($data)
 {
     $conn = koneksi();
+    $id = $_GET['id'];
     $nik = $_GET['nik'];
     $user = query("SELECT * FROM user WHERE username = '$nik'");
     $id_unit = $user['id_unit'];
@@ -86,6 +87,12 @@ function TambahData($data)
     $query_periode = "INSERT INTO periode VALUES ('', '$bln', '$id_unit')";
     mysqli_query($conn, $query_periode);
 
+    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$id_unit')";
+    mysqli_query($conn, $update);
+
+    $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$cek', '$status', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$id_unit')";
+    mysqli_query($conn, $update);
+    
     $query_laporan = "INSERT INTO progress_permasalahan VALUES ('', '$periode', '$id_unit', '$permasalahan', '$ringkasan', '$progress', '$isu')";
     mysqli_query($conn, $query_laporan);
 
@@ -126,7 +133,7 @@ function TambahData1($data)
     $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$cek', '$status', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
     mysqli_query($conn, $update);
 
-    header("Location:laporan_detail.php?id=$id&nik=$nik&periode=date('j F Y', strtotime($periode))");
+    header("Location:laporan_detail.php?id=$id&nik=$nik&periode=$periode");
 }
 
 function updateProgress($id){
@@ -227,6 +234,39 @@ function updateKronologis($id){
                  WHERE id_kronologis = '$id'";
     mysqli_query($conn, $query) or die (mysqli_error($conn));
 
+    $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$dokumen', '$status' , '$lampiran', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
+    return mysqli_affected_rows($conn);
+    header("Location:laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date('j F Y', strtotime($per)) ?>");
+}
+
+function updateKronologis1($id)
+{
+    $conn = koneksi();
+    $nik = $_GET['nik'];
+    $per = $_GET['periode'];
+    $id = $_GET['id'];
+    $user = query("SELECT * FROM user WHERE username = '$nik' LIMIT 1");
+    $idu = $user['id_unit'];
+    $tanggal = $_POST['tanggal'];
+    $perihal = $_POST['perihal'];
+    $dokumen = $_POST['dokumen'];
+    $status = $_POST['status'];
+
+    $lampiran = upload();
+    if (!$lampiran) {
+        return false;
+    }
+
+    $query = "UPDATE kronologis SET 
+                tanggal = '$tanggal',
+                perihal = '$perihal',
+                dokumen = '$dokumen',
+                statuss = '$status',
+                lampiran = '$lampiran'
+                 WHERE id_kronologis = '$id'";
+    mysqli_query($conn, $query) or die(mysqli_error($conn));
+
     $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$dokumen', '$status' , '$per', '$id', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
     mysqli_query($conn, $update);
     return mysqli_affected_rows($conn);
@@ -248,5 +288,21 @@ function Hapus($id){
 
     mysqli_query($conn, "DELETE FROM kronologis WHERE id_unit = $id AND periode = $periode") or die(mysqli_error($conn));
     return mysqli_affected_rows($conn);
+}
+
+function cari($data){
+    $conn = koneksi();
+
+    $query = "SELECT * FROM progress_permasalahan WHERE 
+                periode LIKE '%$data%'";
+
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+
+    return $rows;
+
 }
 ?>

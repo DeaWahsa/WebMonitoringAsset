@@ -5,7 +5,7 @@ $nik = $_GET['id'];
 $user = query("SELECT * FROM user WHERE id_unit = '$nik'");
 if (isset($_POST['Submit'])) {
   if (TambahData1($_POST) > 0) {
-    header("Location:laporan_detail.php");
+    header("Location:laporan_detail.php?id=$nik");
   } else {
     echo 'Data Gagal Ditambahkan';
   }

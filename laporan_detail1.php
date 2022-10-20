@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 include 'function.php';
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
@@ -201,6 +201,14 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
             padding-left: 10px;
             font-size: 13px;
         }
+
+        @media print {
+
+            th.aksi,
+            td.history {
+                display: none;
+            }
+        }
     </style>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -231,7 +239,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
 
         <div class="laporan print">
             <?php $i = 1;
-            $progres = query("SELECT * FROM progress_permasalahan GROUP BY id_unit");
+            $progres = querys("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%' GROUP BY id_unit");
             foreach ($progres as $p) : ?>
                 <div class="laporan-detail">
                     <h1>PROGRESS PENANGANAN PERMASALAHAN ASET TELKOM <br>(LITIGASI, NON LITIGASI, BERPOTENSI BERMASALAH)</h1>
@@ -248,12 +256,12 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                     </div>
                     <div class="d-flex">
                         <p style="width: 200px;">Penanggung Jawab</p>
-                        <p>: <?= $user['Nama'] ?></p>
+                        <p style="font-style: italic;">: (Diisi Manual)</p>
                     </div>
                     <div class="d-flex">
                         <p style="width: 200px;">Periode</p>
 
-                        <p>: <?= date("F Y", strtotime($p['periode'])) ?></p>
+                        <p>: <?= $p['periode'] ?></p>
                     </div>
                     <table border="1">
                         <tr class="th" bgcolor='#e13838'>
@@ -262,10 +270,10 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                             <th>Ringkasan Permasalahan**</th>
                             <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
                             <th>Isu Penting</th>
-                            <th>Aksi</th>
+                            <th class="aksi">Aksi</th>
                         </tr>
                         <?php $i = 1;
-                        $progres = querys("SELECT * FROM progress_permasalahan WHERE id_unit = $u");
+                        $progres = querys("SELECT * FROM progress_permasalahan WHERE id_unit = $u and periode LIKE '%$per%' ");
                         foreach ($progres as $p) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
@@ -287,7 +295,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
             <?php endforeach ?>
             <div class="laporan-detail">
                 <?php
-                $krono = querys("SELECT * FROM kronologis WHERE periode LIKE '%$period%'");
+                $krono = querys("SELECT * FROM kronologis WHERE periode LIKE '%$per%' GROUP BY id_unit");
                 foreach ($krono as $k) : ?>
                     <h1>KRONOLOGIS PERMASALAHAN*</h1>
                     <br>
@@ -299,6 +307,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                             <th rowspan="2">Perihal dan Keterangan</th>
                             <th colspan="2">Dokumen Pendukung**</th>
                             <th colspan="2">Status Dokumen***</th>
+                            <th class="aksi" rowspan="2">Aksi</th>
                         </tr>
                         <tr>
                             <th>Ada</th>
@@ -306,11 +315,13 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                             <th>Asli</th>
                             <th>Copy</th>
                         </tr>
-
+                         <?php $i = 1;
+                        $u = $k['id_unit'];
+                        $kronologis = querys("SELECT * FROM kronologis WHERE id_unit = $u and periode LIKE '%$per%'");
+                        foreach ($kronologis as $k) : ?>
                         <tr>
-                            <td><?= $i = 1;
-                                $i++ ?></td>
-                            <td><?php echo date("l, j F Y", strtotime($k['tanggal'])) ?></td>
+                            <td><?= $i++ ?></td>
+                            <td><?php echo $k['tanggal'] ?></td>
                             <td><?= $k['perihal'] ?></td>
                             <td><?php if ($k['dokumen'] == 'ada') {
                                     echo '√';
@@ -332,7 +343,13 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                                 } else {
                                     echo ' ';
                                 } ?></td>
+                            
+                            <td class="history">
+                                <li><a href="update_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
+                                <li><a href="history_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
+                            </td>
                         </tr>
+                        <?php endforeach ?>
 
                     </table>
                     <p>* Kronologis dibuat per permasalahan (case) aset</p>
@@ -343,7 +360,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
 
                 <?php endforeach ?>
                 <?php
-                $kronol = query("SELECT * FROM kronologis WHERE lampiran != ''");
+                $kronol = query("SELECT * FROM kronologis WHERE periode = $period AND lampiran != ''");
                 foreach ($kronol as $kr) : ?>
                     <p>Lampiran :</p>
                     <ul>
