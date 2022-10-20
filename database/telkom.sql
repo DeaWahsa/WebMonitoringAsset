@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2022 at 02:29 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Oct 20, 2022 at 04:05 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `filter`
+--
+
+CREATE TABLE `filter` (
+  `id` int(11) NOT NULL,
+  `bulan` varchar(225) NOT NULL,
+  `tahun` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `history`
 --
 
@@ -33,10 +45,24 @@ CREATE TABLE `history` (
   `ringkasan` varchar(250) NOT NULL,
   `progress` varchar(250) NOT NULL,
   `isu` varchar(250) NOT NULL,
+  `ket` varchar(225) NOT NULL,
   `last_edit` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `periode` varchar(250) NOT NULL,
+  `id_progress` int(11) NOT NULL,
   `id_unit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`id_history`, `permasalahan`, `ringkasan`, `progress`, `isu`, `ket`, `last_edit`, `id_progress`, `id_unit`) VALUES
+(2, 'permasalahan dan kategori permasalahan', 'ringkasan permsalahan', 'progress penanganan', 'isu', 'Edited:', '2022-10-16 10:15:59', 11, 10),
+(3, 'permasalahan adalah', 'tidak adaa', 'tidak ada', 'tidak ada', 'Edited: ', '2022-10-16 10:51:13', 1, 10),
+(4, 'permasalahan adalah', 'tidak adaa', 'tidak adaa', 'tidak ada', 'Edited: ', '2022-10-17 08:14:15', 1, 10),
+(5, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka', 'Edited: ', '2022-10-18 03:42:01', 12, 9),
+(6, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka', 'Edited: ', '2022-10-20 01:22:11', 12, 9),
+(7, 'tidak ada', 'tidak ada', 'tidak ada', 'tidak ada', 'Added: ', '2022-10-20 01:41:45', 9, 9),
+(8, 'ada', 'ada', 'ada', 'ada', 'Added: ', '2022-10-20 01:41:36', 9, 9);
 
 -- --------------------------------------------------------
 
@@ -51,10 +77,18 @@ CREATE TABLE `history_kronologis` (
   `dokumen` varchar(250) NOT NULL,
   `status` varchar(250) NOT NULL,
   `lampiran` varchar(250) NOT NULL,
+  `ket` varchar(225) NOT NULL,
   `last_edit` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `periode` varchar(250) NOT NULL,
+  `id_kronologis` int(11) NOT NULL,
   `id_unit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history_kronologis`
+--
+
+INSERT INTO `history_kronologis` (`id_history`, `tanggal`, `perihal`, `dokumen`, `status`, `lampiran`, `ket`, `last_edit`, `id_kronologis`, `id_unit`) VALUES
+(1, '4 October 2022', 'adaaa', 'tidak ada', 'asli', '63509dec379d2.', 'Edited: ', '2022-10-20 01:01:32', 2, 10);
 
 -- --------------------------------------------------------
 
@@ -64,9 +98,9 @@ CREATE TABLE `history_kronologis` (
 
 CREATE TABLE `kronologis` (
   `id_kronologis` int(11) NOT NULL,
-  `periode` date NOT NULL,
+  `periode` varchar(225) NOT NULL,
   `id_unit` int(11) NOT NULL,
-  `tanggal` date NOT NULL,
+  `tanggal` varchar(225) NOT NULL,
   `perihal` varchar(250) NOT NULL,
   `dokumen` varchar(250) NOT NULL,
   `statuss` varchar(250) NOT NULL,
@@ -78,8 +112,11 @@ CREATE TABLE `kronologis` (
 --
 
 INSERT INTO `kronologis` (`id_kronologis`, `periode`, `id_unit`, `tanggal`, `perihal`, `dokumen`, `statuss`, `lampiran`) VALUES
-(2, '2022-10-07', 1, '2022-10-04', 'ada', 'ada', 'copy', ''),
-(7, '2022-10-07', 1, '2022-10-11', 'permsalahan', 'tidak ada', 'asli', '');
+(2, 'Oktober 2022', 1, '4 October 2022', 'adaaa', 'tidak ada', 'asli', '63509dec379d2.'),
+(7, 'Oktober 2022', 1, '11 October 2022', 'permsalahan', 'tidak ada', 'copy', '634e247f754a9.'),
+(8, 'September 2022', 9, '1976', 'Sertifikat Hak Guna Bangunan Nomor 4\r\nPada pokoknya menerangkan bahwa dengan luas 10.695 m^2 sebagaimana termaktub dalam Gambar Situasi yang iterbitkan', 'ada', 'copy', ''),
+(9, 'September 2022', 9, '1976', 'tidak ada', 'tidak ada', 'copy', ''),
+(10, 'September 2022', 9, 'ada', 'ada', 'tidak ada', 'copy', '');
 
 -- --------------------------------------------------------
 
@@ -119,7 +156,8 @@ CREATE TABLE `periode` (
 --
 
 INSERT INTO `periode` (`id_periode`, `periode`, `id_unit`) VALUES
-(3, 'October 2022', 1);
+(3, 'Oktober 2022', 1),
+(6, 'September 2022', 9);
 
 -- --------------------------------------------------------
 
@@ -129,7 +167,7 @@ INSERT INTO `periode` (`id_periode`, `periode`, `id_unit`) VALUES
 
 CREATE TABLE `progress_permasalahan` (
   `id_progress` int(11) NOT NULL,
-  `periode` date NOT NULL,
+  `periode` varchar(225) NOT NULL,
   `id_unit` int(11) NOT NULL,
   `permasalahan` varchar(250) NOT NULL,
   `ringkasan` varchar(250) NOT NULL,
@@ -142,9 +180,12 @@ CREATE TABLE `progress_permasalahan` (
 --
 
 INSERT INTO `progress_permasalahan` (`id_progress`, `periode`, `id_unit`, `permasalahan`, `ringkasan`, `progress`, `isu`) VALUES
-(1, '2022-10-07', 1, 'tidak ada', 'tidak ada', 'tidak ada', 'tidak ada'),
-(3, '2022-10-04', 9, 'ya', 'tidak', 'ya', 'ya'),
-(11, '2022-10-07', 1, 'permsalahan', 'ringkasan permsalahan', 'progress ', 'isu');
+(1, 'Oktober 2022', 1, 'permasalahan adalah', 'tidak adaa', 'tidak adaa', 'tidak ada'),
+(3, 'Oktober 2022', 9, 'ya', 'tidak', 'ya', 'ya'),
+(11, 'Oktober 2022', 1, 'permasalahan dan kategori permasalahan', 'ringkasan permsalahan', 'progress penanganan', 'isu'),
+(12, 'September 2022', 9, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka'),
+(13, 'September 2022', 9, 'tidak ada', 'tidak ada', 'tidak ada', 'tidak ada'),
+(14, 'September 2022', 9, 'ada', 'ada', 'ada', 'ada');
 
 -- --------------------------------------------------------
 
@@ -171,7 +212,7 @@ INSERT INTO `unit` (`id_unit`, `nama_unit`) VALUES
 (7, 'Witel Maluku'),
 (8, 'Witel Papua Barat'),
 (9, 'Witel Papua'),
-(10, 'General Affair');
+(10, 'Telkom Regional VII');
 
 -- --------------------------------------------------------
 
@@ -214,6 +255,12 @@ INSERT INTO `user` (`id_user`, `Nama`, `username`, `id_unit`, `last_login`) VALU
 --
 
 --
+-- Indexes for table `filter`
+--
+ALTER TABLE `filter`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `history`
 --
 ALTER TABLE `history`
@@ -247,7 +294,8 @@ ALTER TABLE `periode`
 -- Indexes for table `progress_permasalahan`
 --
 ALTER TABLE `progress_permasalahan`
-  ADD PRIMARY KEY (`id_progress`);
+  ADD PRIMARY KEY (`id_progress`),
+  ADD KEY `id_unit` (`id_unit`);
 
 --
 -- Indexes for table `unit`
@@ -259,29 +307,36 @@ ALTER TABLE `unit`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
+  ADD PRIMARY KEY (`id_user`),
+  ADD KEY `id_unit` (`id_unit`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `filter`
+--
+ALTER TABLE `filter`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `history_kronologis`
 --
 ALTER TABLE `history_kronologis`
-  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kronologis`
 --
 ALTER TABLE `kronologis`
-  MODIFY `id_kronologis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_kronologis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `laporan`
@@ -293,13 +348,13 @@ ALTER TABLE `laporan`
 -- AUTO_INCREMENT for table `periode`
 --
 ALTER TABLE `periode`
-  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `progress_permasalahan`
 --
 ALTER TABLE `progress_permasalahan`
-  MODIFY `id_progress` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_progress` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `unit`
@@ -312,6 +367,16 @@ ALTER TABLE `unit`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `unit`
+--
+ALTER TABLE `unit`
+  ADD CONSTRAINT `unit_ibfk_1` FOREIGN KEY (`id_unit`) REFERENCES `user` (`id_unit`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
