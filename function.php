@@ -273,20 +273,20 @@ function updateKronologis1($id)
     header("Location:laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date('j F Y', strtotime($per)) ?>");
 }
 
-function Hapus($id){
+function Hapus($periode){
     $conn = koneksi();
 
     $id = $_GET['id'];
     $nik = $_GET['nik'];
     $periode = $_GET['periode'];
-    $kronologis = query("SELECT * FROM kronologis WHERE id_unit = $id AND periode = $periode");
 
-    unlink('docs/' .$kronologis['lampiran']);
-
-    mysqli_query($conn, "DELETE FROM progress_permasalahan WHERE id_unit = $id AND periode = $periode") or die(mysqli_error($conn));
+    mysqli_query($conn, "DELETE FROM periode where id_unit = $id and periode = '$periode'");
     return mysqli_affected_rows($conn);
 
-    mysqli_query($conn, "DELETE FROM kronologis WHERE id_unit = $id AND periode = $periode") or die(mysqli_error($conn));
+    mysqli_query($conn, "DELETE FROM progress_permasalahan where id_unit = $id and periode = '$periode'");
+    return mysqli_affected_rows($conn);
+
+    mysqli_query($conn, "DELETE FROM kronologis WHERE id_unit = $id and periode = '$periode'");
     return mysqli_affected_rows($conn);
 }
 

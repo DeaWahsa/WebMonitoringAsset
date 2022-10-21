@@ -9,6 +9,17 @@ $periode = query("SELECT * FROM periode WHERE periode LIKE '%$per%'");
 $units = query("SELECT * FROM unit WHERE id_unit = $id");
 $user = query("SELECT * FROM user WHERE id_unit = $id LIMIT 1");
 $krono = querys("SELECT * FROM kronologis WHERE id_unit = $id");
+
+if (isset($_POST['delete'])) {
+    if (Hapus($_POST) > 0) {
+        alert("Data Berhasil Dihapus");
+        header("Location:data.php?nik=<?= $nik ?>");
+    } else {
+        alert('Data Gagal Dihapus');
+        header("Location:laporan_detail.php?id=$id&nik=$nik&periode=$periode");
+    }
+}
+?>
 ?>
 
 <!DOCTYPE html>
@@ -233,6 +244,7 @@ $krono = querys("SELECT * FROM kronologis WHERE id_unit = $id");
                         $tgl = $tanggal['periode'];
                         ?>
                         <li class="nav-item nav"><a class="nav1" href="tambah.php?id=<?= $id ?>&periode=<?= $per ?>">Input</a></li>
+                    
                         <li class="nav-item nav"><a class="nav1" href="delete.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= $per ?>">Delete</a></li>
                         <li class="nav-item nav"><button style="background: none;outline: none; color:#e13838; font-weight: 600; border: none;" onclick="window.print();">Download</button></li>
                     </div>
