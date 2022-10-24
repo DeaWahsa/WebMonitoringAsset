@@ -280,14 +280,14 @@ function Hapus($periode){
     $nik = $_GET['nik'];
     $periode = $_GET['periode'];
 
-    mysqli_query($conn, "DELETE FROM periode where id_unit = $id and periode = '$periode'");
-    return mysqli_affected_rows($conn);
+    $delete1 = "DELETE FROM kronologis WHERE id_unit = $id and periode = '$periode'";
+    mysqli_query($conn, $delete1);
+    
+    $delete2 = "DELETE FROM progress_permasalahan where id_unit = $id and periode = '$periode'";
+    mysqli_query($conn, $delete2);
 
-    mysqli_query($conn, "DELETE FROM progress_permasalahan where id_unit = $id and periode = '$periode'");
-    return mysqli_affected_rows($conn);
-
-    mysqli_query($conn, "DELETE FROM kronologis WHERE id_unit = $id and periode = '$periode'");
-    return mysqli_affected_rows($conn);
+    $delete3 = "DELETE FROM periode WHERE id_unit = $id and periode = '$periode'";
+    mysqli_query($conn, $delete3);
 }
 
 function cari($data){

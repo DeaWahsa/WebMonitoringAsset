@@ -3,8 +3,7 @@ error_reporting(0);
 include 'function.php';
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
-$period = date("Y-m", strtotime($per));
-$periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$period%'");
+$periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%'");
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +21,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fe8876d200.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css" media="print">
     <link rel="stylesheet" href="print.css" media="print">
     <style>
@@ -202,6 +202,15 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
             font-size: 13px;
         }
 
+        .lampiran ul li {
+            list-style: none;
+            background: #fefefe;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 1px 2px 4px 1px #dddd;
+        }
+
         @media print {
 
             th.aksi,
@@ -315,40 +324,40 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
                             <th>Asli</th>
                             <th>Copy</th>
                         </tr>
-                         <?php $i = 1;
+                        <?php $i = 1;
                         $u = $k['id_unit'];
                         $kronologis = querys("SELECT * FROM kronologis WHERE id_unit = $u and periode LIKE '%$per%'");
                         foreach ($kronologis as $k) : ?>
-                        <tr>
-                            <td><?= $i++ ?></td>
-                            <td><?php echo $k['tanggal'] ?></td>
-                            <td><?= $k['perihal'] ?></td>
-                            <td><?php if ($k['dokumen'] == 'ada') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['dokumen'] == 'tidak ada') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['statuss'] == 'asli') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['statuss'] == 'copy') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            
-                            <td class="history">
-                                <li><a href="update_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
-                                <li><a href="history_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?= $i++ ?></td>
+                                <td><?php echo $k['tanggal'] ?></td>
+                                <td><?= $k['perihal'] ?></td>
+                                <td><?php if ($k['dokumen'] == 'ada') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['dokumen'] == 'tidak ada') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['statuss'] == 'asli') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['statuss'] == 'copy') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+
+                                <td class="history">
+                                    <li><a href="update_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
+                                    <li><a href="history_kronologis1.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
+                                </td>
+                            </tr>
                         <?php endforeach ?>
 
                     </table>
@@ -359,15 +368,21 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$peri
 
 
                 <?php endforeach ?>
-                <?php
-                $kronol = query("SELECT * FROM kronologis WHERE periode = $period AND lampiran != ''");
-                foreach ($kronol as $kr) : ?>
-                    <p>Lampiran :</p>
-                    <ul>
-                        <li><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
-                    </ul>
-                <?php endforeach ?>
+
             </div>
+
+            <?php
+            $kronol = query("SELECT * FROM kronologis WHERE periode = '$per' AND lampiran != ''"); ?>
+            <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
+            <?php foreach ($kronol as $kr) : ?>
+                <div class="lampiran">
+                    <ul>
+                        <li><i class="fa fa-paperclip"></i><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
+                    </ul>
+                </div>
+            <?php endforeach ?>
+
+
         </div>
     </section>
     <script src="jquery-3.1.1.min.js"></script>

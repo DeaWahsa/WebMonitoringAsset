@@ -1,6 +1,7 @@
 <?php
 
 include 'function.php';
+$conn = koneksi();
 $nik = $_GET['nik'];
 $id = $_GET['id'];
 $per = $_GET['periode'];
@@ -8,18 +9,11 @@ $periode = query("SELECT * FROM periode WHERE periode LIKE '%$per%'");
 
 $units = query("SELECT * FROM unit WHERE id_unit = $id");
 $user = query("SELECT * FROM user WHERE id_unit = $id LIMIT 1");
-$krono = querys("SELECT * FROM kronologis WHERE id_unit = $id");
+$krono = mysqli_query($conn, "SELECT * FROM kronologis WHERE id_unit = $id AND tanggal != ''");
 
 if (isset($_POST['delete'])) {
-    if (Hapus($_POST) > 0) {
-        alert("Data Berhasil Dihapus");
         header("Location:data.php?nik=<?= $nik ?>");
-    } else {
-        alert('Data Gagal Dihapus');
-        header("Location:laporan_detail.php?id=$id&nik=$nik&periode=$periode");
-    }
 }
-?>
 ?>
 
 <!DOCTYPE html>
@@ -244,7 +238,7 @@ if (isset($_POST['delete'])) {
                         $tgl = $tanggal['periode'];
                         ?>
                         <li class="nav-item nav"><a class="nav1" href="tambah.php?id=<?= $id ?>&periode=<?= $per ?>">Input</a></li>
-                    
+
                         <li class="nav-item nav"><a class="nav1" href="delete.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= $per ?>">Delete</a></li>
                         <li class="nav-item nav"><button style="background: none;outline: none; color:#e13838; font-weight: 600; border: none;" onclick="window.print();">Download</button></li>
                     </div>
@@ -306,73 +300,78 @@ if (isset($_POST['delete'])) {
                 <p>** Dilengkapi kronologis (di lembar terpisah sebagaimana contoh format terlampir), menjadi satu kesatuan dengan laporan ini</p>
                 <p>*** Dilengkapi dengan Waktu dan/atau Rencana Waktu (Time Plan)</p>
             </div>
+            <?php $row = mysqli_num_rows($krono);
+            if ($row < 1) {   
+            ?>
+                <div class="laporan-detail" style="display: none;"></div>
+            <?php } else { ?>
+                <div class="laporan-detail kronologis">
+                    <h1>KRONOLOGIS PERMASALAHAN*</h1>
+                    <br>
 
-            <div class="laporan-detail">
-                <h1>KRONOLOGIS PERMASALAHAN*</h1>
-                <br>
-
-                <table border="1">
-                    <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Tanggal</th>
-                        <th rowspan="2">Perihal dan Keterangan</th>
-                        <th colspan="2">Dokumen Pendukung**</th>
-                        <th colspan="2">Status Dokumen***</th>
-                        <th class="aksi" rowspan="2">Aksi</th>
-                    </tr>
-                    <tr>
-                        <th>Ada</th>
-                        <th>Tidak Ada</th>
-                        <th>Asli</th>
-                        <th>Copy</th>
-                    </tr>
-                    <?php $i = 1;
-
-                    foreach ($krono as $k) : ?>
+                    <table border="1">
                         <tr>
-                            <td><?= $i++ ?></td>
-                            <td><?php echo $k['tanggal'] ?></td>
-                            <td><?= $k['perihal'] ?></td>
-                            <td><?php if ($k['dokumen'] == 'ada') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['dokumen'] == 'tidak ada') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['statuss'] == 'asli') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td><?php if ($k['statuss'] == 'copy') {
-                                    echo '√';
-                                } else {
-                                    echo ' ';
-                                } ?></td>
-                            <td class="aksi"><a href="update_kronologis.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= date("j F Y", strtotime($per)) ?>">Update</a></td>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Tanggal</th>
+                            <th rowspan="2">Perihal dan Keterangan</th>
+                            <th colspan="2">Dokumen Pendukung**</th>
+                            <th colspan="2">Status Dokumen***</th>
+                            <th class="aksi" rowspan="2">Aksi</th>
                         </tr>
-                    <?php endforeach ?>
-                </table>
-                <p>* Kronologis dibuat per permasalahan (case) aset</p>
-                <p>** Diberi tanda centang (√) di salah satu kolom “Ada” / “Tidak Ada”</p>
-                <p>*** Diberi tanda centang (√) di salah satu kolom “Asli” / “Copy”</p>
-                <br><br>
-                <div class="lampiran">
+                        <tr>
+                            <th>Ada</th>
+                            <th>Tidak Ada</th>
+                            <th>Asli</th>
+                            <th>Copy</th>
+                        </tr>
+                        <?php $i = 1;
 
-                    <?php
-                    $kronol = query("SELECT * FROM kronologis WHERE id_unit = $id AND lampiran != ''");
-                    foreach ($kronol as $kr) : ?>
-                        <p style="font-weight: bold">Lampiran :</p>
-                        <ul>
-                            <li><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
-                        </ul>
-                    <?php endforeach ?>
+                        foreach ($krono as $k) : ?>
+                            <tr>
+                                <td><?= $i++ ?></td>
+                                <td><?php echo $k['tanggal'] ?></td>
+                                <td><?= $k['perihal'] ?></td>
+                                <td><?php if ($k['dokumen'] == 'ada') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['dokumen'] == 'tidak ada') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['statuss'] == 'asli') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td><?php if ($k['statuss'] == 'copy') {
+                                        echo '√';
+                                    } else {
+                                        echo ' ';
+                                    } ?></td>
+                                <td class="aksi"><a href="update_kronologis.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= date("j F Y", strtotime($per)) ?>">Update</a></td>
+                            </tr>
+                        <?php endforeach ?>
+                    </table>
+                    <p>* Kronologis dibuat per permasalahan (case) aset</p>
+                    <p>** Diberi tanda centang (√) di salah satu kolom “Ada” / “Tidak Ada”</p>
+                    <p>*** Diberi tanda centang (√) di salah satu kolom “Asli” / “Copy”</p>
+                    <br><br>
+                    <div class="lampiran">
+
+                        <?php
+                        $kronol = query("SELECT * FROM kronologis WHERE id_unit = $id AND lampiran != ''");
+                        foreach ($kronol as $kr) : ?>
+                            <p style="font-weight: bold">Lampiran :</p>
+                            <ul>
+                                <li><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
+                            </ul>
+                        <?php endforeach ?>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
     </section>
 </body>
