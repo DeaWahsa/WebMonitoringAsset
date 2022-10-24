@@ -4,6 +4,7 @@ include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
+error_reporting(0);
 $history = querys("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
 ?>
 

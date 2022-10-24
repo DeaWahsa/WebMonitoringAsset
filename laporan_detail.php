@@ -12,7 +12,7 @@ $user = query("SELECT * FROM user WHERE id_unit = $id LIMIT 1");
 $krono = mysqli_query($conn, "SELECT * FROM kronologis WHERE id_unit = $id AND tanggal != ''");
 
 if (isset($_POST['delete'])) {
-        header("Location:data.php?nik=<?= $nik ?>");
+    header("Location:data.php?nik=<?= $nik ?>");
 }
 ?>
 
@@ -32,6 +32,7 @@ if (isset($_POST['delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://kit.fontawesome.com/fe8876d200.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Noto Serif', serif;
@@ -217,6 +218,16 @@ if (isset($_POST['delete'])) {
                 display: none;
             }
         }
+
+        .lampiran ul li {
+            list-style: none;
+            background: #fefefe;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 1px 2px 4px 1px #dddd;
+            font-size: 12px;
+        }
     </style>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -301,7 +312,7 @@ if (isset($_POST['delete'])) {
                 <p>*** Dilengkapi dengan Waktu dan/atau Rencana Waktu (Time Plan)</p>
             </div>
             <?php $row = mysqli_num_rows($krono);
-            if ($row < 1) {   
+            if ($row < 1) {
             ?>
                 <div class="laporan-detail" style="display: none;"></div>
             <?php } else { ?>
@@ -351,7 +362,10 @@ if (isset($_POST['delete'])) {
                                     } else {
                                         echo ' ';
                                     } ?></td>
-                                <td class="aksi"><a href="update_kronologis.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= date("j F Y", strtotime($per)) ?>">Update</a></td>
+                                <td class="history">
+                                    <li><a href="update_kronologis.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
+                                    <li><a href="history_kronologis.php?id=<?= $k['id_kronologis'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
+                                </td>
                             </tr>
                         <?php endforeach ?>
                     </table>
@@ -362,12 +376,14 @@ if (isset($_POST['delete'])) {
                     <div class="lampiran">
 
                         <?php
-                        $kronol = query("SELECT * FROM kronologis WHERE id_unit = $id AND lampiran != ''");
-                        foreach ($kronol as $kr) : ?>
-                            <p style="font-weight: bold">Lampiran :</p>
-                            <ul>
-                                <li><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
-                            </ul>
+                        $kronol = querys("SELECT * FROM kronologis WHERE id_unit = $id AND periode = '$per' AND lampiran != ''"); ?>
+                        <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
+                        <?php foreach ($kronol as $kr) : ?>
+                            <div class="lampiran">
+                                <ul>
+                                    <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $kr["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;"><?= substr($kr["lampiran"], 0, 13) ?>...</a></li>
+                                </ul>
+                            </div>
                         <?php endforeach ?>
                     </div>
                 </div>
