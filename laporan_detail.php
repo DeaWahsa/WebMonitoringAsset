@@ -214,7 +214,7 @@ if (isset($_POST['delete'])) {
         @media print {
 
             th.aksi,
-            td.history {
+            td.history, .lampiran {
                 display: none;
             }
         }
@@ -376,7 +376,7 @@ if (isset($_POST['delete'])) {
                     <div class="lampiran">
 
                         <?php
-                        $kronol = querys("SELECT * FROM kronologis WHERE id_unit = $id AND periode = '$per' AND lampiran != ''"); ?>
+                        $kronol = mysqli_query($conn, "SELECT * FROM kronologis WHERE id_unit = $id AND periode = '$per' AND lampiran != ''"); ?>
                         <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
                         <?php foreach ($kronol as $kr) : ?>
                             <div class="lampiran">

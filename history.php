@@ -6,7 +6,8 @@ $nik = $_GET['nik'];
 $user = query("SELECT * FROM user WHERE username = $nik");
 $idu = $user['id_unit'];
 $per = $_GET['periode'];
-$history = query("SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
+$conn = koneksi();
+$history = mysqli_query($conn, "SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
 $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
 ?>
 
@@ -258,34 +259,7 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
             <center>
                 <h1>HISTORY</h1>
             </center>
-            <div class="history-item">
-                <?php
-                $i=1;
-                $id_unit = $now['id_unit'];
-                $names = query("SELECT nama_unit FROM unit WHERE id_unit = $id_unit");
-                $nama = $names['nama_unit'];
-                ?>
-                <p class="nama"><i class="fa fa-user"></i> <?php echo $nama  ?></p>
-                <p class="tanggal">Added New Entry Data</p>
-
-                <table border="1">
-                    <tr class="th" bgcolor='#e13838'>
-                        <th>No</th>
-                        <th>Permasalahan & Kategori Permasalahan*</th>
-                        <th>Ringkasan Permasalahan**</th>
-                        <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                        <th>Isu Penting</th>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo $i++ ?></td>
-                        <td><?php echo $now['permasalahan'] ?></td>
-                        <td><?php echo $now['ringkasan'] ?></td>
-                        <td><?php echo $now['progress'] ?></td>
-                        <td><?php echo $now['isu'] ?></td>
-                    </tr>
-                </table>
-            </div>
+            
             <?php
             $i = 1;
             foreach ($history as $h) :

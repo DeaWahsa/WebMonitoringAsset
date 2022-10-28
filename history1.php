@@ -4,7 +4,8 @@ include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
-$history = querys("SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
+$conn = koneksi();
+$history = mysqli_query($conn, "SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
 ?>
 
 <!DOCTYPE html>

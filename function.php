@@ -83,7 +83,7 @@ function TambahData($data)
     $direktori = "docs/";
     $lampiran = $_FILES['file']['name'];
     move_uploaded_file($_FILES['file']['tmp_name'], $direktori . $lampiran);
-    $bln = date("F Y", strtotime($data['periode']));
+    $bln = htmlspecialchars($data['periode']);
     $query_periode = "INSERT INTO periode VALUES ('', '$bln', '$id_unit')";
     mysqli_query($conn, $query_periode);
 
@@ -192,13 +192,9 @@ function updateProgress1($id)
 function upload()
 {
     $nama_file = $_FILES['lampiran']['name'];
-    $tipe_file = $_FILES['lampiran']['type'];
-    $ukuran_file = $_FILES['lampiran']['size'];
-    $error = $_FILES['lampiran']['error'];
     $tmp_file = $_FILES['lampiran']['tmp_name'];
     $ekstensi_file = explode('.', $nama_file);
     $ekstensi_file = strtolower(end($ekstensi_file));
-
 
     $nama_file_baru = uniqid();
     $nama_file_baru .= '.';
@@ -219,20 +215,29 @@ function updateKronologis($id){
     $perihal = $_POST['perihal'];
     $dokumen = $_POST['dokumen'];
     $status = $_POST['status'];
-    
-    $lampiran = upload();
-    if(!$lampiran){
-        return false;
-    }
 
-    $query = "UPDATE kronologis SET 
+    $direktori = "docs/";
+    $lampiran = $_FILES['lampiran']['name'];
+    if ($lampiran != "") {
+        $query = "UPDATE kronologis SET 
                 tanggal = '$tanggal',
                 perihal = '$perihal',
                 dokumen = '$dokumen',
                 statuss = '$status',
                 lampiran = '$lampiran'
+                WHERE id_kronologis = '$id'";
+        move_uploaded_file($_FILES['lampiran']['tmp_name'], $direktori . $lampiran);
+        mysqli_query($conn, $query) or die(mysqli_error($conn));
+    } else {
+        $query = "UPDATE kronologis SET 
+                tanggal = '$tanggal',
+                perihal = '$perihal',
+                dokumen = '$dokumen',
+                statuss = '$status'
                  WHERE id_kronologis = '$id'";
-    mysqli_query($conn, $query) or die (mysqli_error($conn));
+        mysqli_query($conn, $query) or die(mysqli_error($conn));
+    }  
+
 
     $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$dokumen', '$status' , '$lampiran', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
     mysqli_query($conn, $update);
@@ -250,22 +255,31 @@ function updateKronologis1($id)
     $idu = $user['id_unit'];
     $tanggal = $_POST['tanggal'];
     $perihal = $_POST['perihal'];
-    $dokumen = $_POST['dokumen'];
-    $status = $_POST['status'];
+    $dokumen = $_POST['dokumen[]'];
+    $status = $_POST['status[]'];
 
-    $lampiran = upload();
-    if (!$lampiran) {
-        return false;
-    }
-
-    $query = "UPDATE kronologis SET 
+    $direktori = "docs/";
+    $lampiran = $_FILES['lampiran']['name'];
+    if($lampiran != ""){
+        move_uploaded_file($_FILES['lampiran']['tmp_name'], $direktori . $lampiran);
+        $query = "UPDATE kronologis SET 
+                tanggal = '$tanggal',
+                perihal = '$perihal',
+                dokumen = '$dokumen',
+                statuss = '$status',
+                lampiran = '$lampiran'
+                WHERE id_kronologis = '$id'";
+        mysqli_query($conn, $query) or die(mysqli_error($conn));
+    }else{
+        $query = "UPDATE kronologis SET 
                 tanggal = '$tanggal',
                 perihal = '$perihal',
                 dokumen = '$dokumen',
                 statuss = '$status',
                 lampiran = '$lampiran'
                  WHERE id_kronologis = '$id'";
-    mysqli_query($conn, $query) or die(mysqli_error($conn));
+        mysqli_query($conn, $query) or die(mysqli_error($conn));
+    }  
 
     $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$dokumen', '$status' , '$per', '$id', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
     mysqli_query($conn, $update);
@@ -280,14 +294,14 @@ function Hapus($periode){
     $nik = $_GET['nik'];
     $periode = $_GET['periode'];
 
+    $delete3 = "DELETE FROM periode WHERE id_unit = $id and periode = '$periode'";
+    mysqli_query($conn, $delete3);
+
     $delete1 = "DELETE FROM kronologis WHERE id_unit = $id and periode = '$periode'";
     mysqli_query($conn, $delete1);
     
     $delete2 = "DELETE FROM progress_permasalahan where id_unit = $id and periode = '$periode'";
-    mysqli_query($conn, $delete2);
-
-    $delete3 = "DELETE FROM periode WHERE id_unit = $id and periode = '$periode'";
-    mysqli_query($conn, $delete3);
+    mysqli_query($conn, $delete2); 
 }
 
 function cari($data){

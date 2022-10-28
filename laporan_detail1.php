@@ -214,7 +214,8 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
         @media print {
 
             th.aksi,
-            td.history {
+            td.history,
+            .lampiran {
                 display: none;
             }
         }
@@ -370,17 +371,19 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                 <?php endforeach ?>
 
             </div>
+            <div class="lampiran">
 
-            <?php
-            $kronol = query("SELECT * FROM kronologis WHERE periode = '$per' AND lampiran != ''"); ?>
-            <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
-            <?php foreach ($kronol as $kr) : ?>
-                <div class="lampiran">
-                    <ul>
-                        <li><i class="fa fa-paperclip"></i><a style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;" href=""><?= $kr['lampiran'] ?></a></li>
-                    </ul>
-                </div>
-            <?php endforeach ?>
+                <?php
+                $kronol = querys("SELECT * FROM kronologis WHERE periode = '$per' AND lampiran != ''"); ?>
+                <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
+                <?php foreach ($kronol as $kr) : ?>
+                    <div class="lampiran">
+                        <ul>
+                            <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $kr["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838; font-weight: bold; padding: 5px 10px;"><?= substr($kr["lampiran"], 0, 13) ?>...</a></li>
+                        </ul>
+                    </div>
+                <?php endforeach ?>
+            </div>
 
 
         </div>

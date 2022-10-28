@@ -4,8 +4,10 @@ include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
-error_reporting(0);
-$history = querys("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
+$conn = koneksi();
+$history = mysqli_query($conn, "SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
+$h = query("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history LIMIT 1");
+$laporan = $h['id_unit'];
 ?>
 
 <!DOCTYPE html>
@@ -227,6 +229,15 @@ $history = querys("SELECT * FROM history_kronologis WHERE id_kronologis = $id OR
             margin-bottom: -5px;
             color: #e13838;
         }
+
+        .lampiran ul li {
+            list-style: none;
+            background: #fefefe;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 1px 2px 4px 1px #dddd;
+        }
     </style>
 </head>
 
@@ -243,7 +254,7 @@ $history = querys("SELECT * FROM history_kronologis WHERE id_kronologis = $id OR
                 <ul class="navbar-nav ml-auto">
 
                     <li class="name nav-item back">
-                        <a href="laporan_detail1.php?nik=<?= $nik ?>&periode=<?= $per ?>" class="btn back" aria-hidden="true">Back</a>
+                        <a href="laporan_detail.php?id=<?= $laporan ?>&nik=<?= $nik ?>&periode=<?= $per ?>" class="btn back" aria-hidden="true">Back</a>
                     </li>
                     <li class="name nav-item">
                         <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
@@ -270,40 +281,58 @@ $history = querys("SELECT * FROM history_kronologis WHERE id_kronologis = $id OR
                     <p class="tanggal"><?php echo $h['ket'] ?> <?= date("l, j F Y, H:i A", strtotime($h["last_edit"])) ?></p>
 
                     <table border="1">
-                        <tr class="th" bgcolor='#e13838'>
-                            <th>No</th>
-                            <th>Permasalahan & Kategori Permasalahan*</th>
-                            <th>Ringkasan Permasalahan**</th>
-                            <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
-                            <th>Isu Penting</th>
+                        <tr>
+                            <th rowspan="2">Tanggal</th>
+                            <th rowspan="2">Perihal dan Keterangan</th>
+                            <th colspan="2">Dokumen Pendukung**</th>
+                            <th colspan="2">Status Dokumen***</th>
+                        </tr>
+                        <tr>
+                            <th>Ada</th>
+                            <th>Tidak Ada</th>
+                            <th>Asli</th>
+                            <th>Copy</th>
                         </tr>
 
                         <tr>
-                            <td><?php echo $i++ ?></td>
                             <td><?php echo $h['tanggal'] ?></td>
                             <td><?php echo $h['perihal'] ?></td>
-                            <td><?php if ($k['dokumen'] == 'ada') {
+                            <td><?php if ($h['dokumen'] == 'ada') {
                                     echo '√';
                                 } else {
                                     echo ' ';
                                 } ?></td>
-                            <td><?php if ($k['dokumen'] == 'tidak ada') {
+                            <td><?php if ($h['dokumen'] == 'tidak ada') {
                                     echo '√';
                                 } else {
                                     echo ' ';
                                 } ?></td>
-                            <td><?php if ($k['statuss'] == 'asli') {
+                            <td><?php if ($h['status'] == 'asli') {
                                     echo '√';
                                 } else {
                                     echo ' ';
                                 } ?></td>
-                            <td><?php if ($k['statuss'] == 'copy') {
+                            <td><?php if ($h['status'] == 'copy') {
                                     echo '√';
                                 } else {
                                     echo ' ';
                                 } ?></td>
                         </tr>
                     </table>
+                    <?php
+                    if ($h['lampiran'] != '') { ?>
+                        <div class="lampiran">
+                            <ul>
+                                <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $h["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838;  padding: 5px 10px;"><?= substr($h["lampiran"], 0, 13) ?>...</a></li>
+                            </ul>
+                        </div>
+                    <?php } else { ?>
+                        <div class="lampiran" style="display: none;">
+                            <ul>
+                                <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $h["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838; padding: 5px 10px;"><?= substr($h["lampiran"], 0, 13) ?>...</a></li>
+                            </ul>
+                        </div>
+                    <?php } ?>
                 </div>
             <?php endforeach ?>
             <br>

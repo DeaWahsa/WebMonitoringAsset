@@ -18,7 +18,7 @@ if (isset($_POST['update'])) {
        
     } else {
         alert('Data Gagal Diupdate');
-        header("Location:laporan_detail.php?idu=$id&nik=$nik&periode=$periode");
+        header("Location:laporan_detail.php?id=$idu&nik=$nik&periode=$periode");
     }
   }
 ?>
@@ -174,7 +174,7 @@ if (isset($_POST['update'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="name nav-item back">
-                    <a href="laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date("j F Y", strtotime($periode)) ?>" class="btn back" aria-hidden="true">Back</a>
+                    <a href="laporan_detail.php?id=<?= $idu ?>&nik=<?= $nik ?>&periode=<?= $periode ?>" class="btn back" aria-hidden="true">Back</a>
                 </li> 
                 <li class="name nav-item">
                     <a href="login.php" class="btn" aria-hidden="true">Sign Out</a>

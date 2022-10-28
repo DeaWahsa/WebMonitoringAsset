@@ -5,7 +5,8 @@ $id = $_GET['id'];
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
 error_reporting(0);
-$history = query("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
+$conn = koneksi();
+$history = mysqli_query($conn, "SELECT * FROM history_kronologis WHERE id_kronologis = $id ORDER BY id_history DESC");
 ?>
 
 <!DOCTYPE html>
@@ -227,6 +228,15 @@ $history = query("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORD
             margin-bottom: -5px;
             color: #e13838;
         }
+
+        .lampiran ul li {
+            list-style: none;
+            background: #fefefe;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 1px 2px 4px 1px #dddd;
+        }
     </style>
 </head>
 
@@ -310,6 +320,23 @@ $history = query("SELECT * FROM history_kronologis WHERE id_kronologis = $id ORD
                                 } ?></td>
                         </tr>
                     </table>
+
+                    <?php
+                    if ($h['lampiran'] != '') { ?>
+                        <div class="lampiran">
+                            <ul>
+                                <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $h["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838;  padding: 5px 10px;"><?= substr($h["lampiran"], 0, 13) ?>...</a></li>
+                            </ul>
+                        </div>
+                    <?php } else { ?>
+                        <div class="lampiran" style="display: none;">
+                            <ul>
+                                <li><i class="fa fa-paperclip"></i><a href="docs/<?php echo $h["lampiran"]; ?>" target="_blank" style="text-decoration: none; color: #E13838; padding: 5px 10px;"><?= substr($h["lampiran"], 0, 13) ?>...</a></li>
+                            </ul>
+                        </div>
+                    <?php } ?>
+
+
                 </div>
             <?php endforeach ?>
             <br>

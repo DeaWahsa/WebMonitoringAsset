@@ -17,5 +17,5 @@ if (Hapus($nik) > 0) {
         </script>";
     header("Location:data.php?nik=$nik");
 } else {
-    echo 'Data gagal dihapus';
+    header("Location:data.php?nik=$nik");
 }

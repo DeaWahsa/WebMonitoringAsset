@@ -199,7 +199,6 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
                     <h1 style="color: #e13838; font-size: 60px; font-weight: bold;padding-top: 120px">Laporan Asset</h1>
                 </center>
             </div>
-            <center><a href="create.php?nik=<?php echo $nik ?>" class="create" aria-hidden="true">Create Data</a></center>
             <form class="form-inline" method="POST" action="">
                 <div class="form-group">
                     <label for="inputBulan" class="col-sm-2 col-md-2 col-lg-1 col-form-label">Bulan</label>
