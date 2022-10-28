@@ -6,7 +6,7 @@
 	if(ISSET($_POST['search'])){
 		$date1 = $_POST['bulan'];
 		$date2 = $_POST['tahun'];
-		$query=mysqli_query($conn, "SELECT * FROM periode WHERE periode LIKE '%$date1%' AND  periode LIKE '%$date2%'");
+		$query=mysqli_query($conn, "SELECT DISTINCT periode FROM periode WHERE periode LIKE '%$date1%' AND  periode LIKE '%$date2%'");
 		$row=mysqli_num_rows($query);
 	
 		if($row>0){

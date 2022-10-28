@@ -175,6 +175,23 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
         .form-inline select {
             width: 300px !important;
         }
+
+        #buttons {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 100px !important;
+        }
+
+        input[type="button"] {
+            border: 1px #e13838 solid;
+            background: white;
+            padding: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0px 4px;
+            color: #E13838;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -252,7 +269,6 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
                         <th>Laporan</th>
                     </tr>
                     <tr>
-
                         <?php include 'datarange.php' ?>
                     </tr>
                 </table>
@@ -261,11 +277,9 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
 
         </div>
     </section>
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
+
+    <!-- Script JS -->
+    <script src="js/script.js"></script>
 </body>
 
 </html>

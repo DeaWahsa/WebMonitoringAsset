@@ -165,8 +165,24 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             color: #e13838;
         }
 
-        .form-inline select{
+        .form-inline select {
             width: 300px !important;
+        }
+
+        #buttons{
+            width: 100%;
+            text-align: center;
+            margin-bottom: 100px !important;
+        }
+        input[type="button"] {
+            border: 1px #e13838 solid;
+            background: white;
+            padding: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0px 4px;
+            color: #E13838;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -241,7 +257,7 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
 
             <div class="box-laporan">
                 <br>
-                <table>
+                <table id="myTable">
                     <tr>
                         <th>No</th>
                         <th>Laporan</th>
@@ -254,6 +270,8 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
             </div>
         </div>
     </section>
+    <!-- Script JS -->
+    <script src="js/script.js"></script>
 </body>
 
 </html>
