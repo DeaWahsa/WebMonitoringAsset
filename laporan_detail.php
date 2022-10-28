@@ -119,7 +119,8 @@ if (isset($_POST['delete'])) {
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        .laporan-detail p {
+        .laporan-detail p,
+        pre {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 0px !important;
@@ -214,8 +215,13 @@ if (isset($_POST['delete'])) {
         @media print {
 
             th.aksi,
-            td.history, .lampiran {
+            td.history,
+            .lampiran {
                 display: none;
+            }
+
+            pre {
+                border: none !important;
             }
         }
 
@@ -296,10 +302,18 @@ if (isset($_POST['delete'])) {
                     foreach ($progres as $p) : ?>
                         <tr>
                             <td><?= $i++ ?></td>
-                            <td><?= $p['permasalahan'] ?></td>
-                            <td><?= $p['ringkasan'] ?></td>
-                            <td><?= $p['progress'] ?></td>
-                            <td><?= $p['isu'] ?></td>
+                            <td>
+                                <pre><?= $p['permasalahan'] ?></pre>
+                            </td>
+                            <td>
+                                <pre><?= $p['ringkasan'] ?></pre>
+                            </td>
+                            <td>
+                                <pre><?= $p['progress'] ?></pre>
+                            </td>
+                            <td>
+                                <pre><?= $p['isu'] ?></pre>
+                            </td>
                             <td class="history">
                                 <li><a href="update_progress.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
                                 <li><a href="history.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
@@ -341,7 +355,9 @@ if (isset($_POST['delete'])) {
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td><?php echo $k['tanggal'] ?></td>
-                                <td><?= $k['perihal'] ?></td>
+                                <td>
+                                    <pre><?= $k['perihal'] ?></pre>
+                                </td>
                                 <td><?php if ($k['dokumen'] == 'ada') {
                                         echo '√';
                                     } else {
@@ -390,6 +406,15 @@ if (isset($_POST['delete'])) {
             <?php } ?>
         </div>
     </section>
+    <script>
+        document.querySelector('textarea').addEventListener('keyup', function() {
+            document.querySelector('pre').innerText = this.value;
+        });
+    </script>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="js.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </body>
 
 </html>

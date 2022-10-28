@@ -218,6 +218,10 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
             .lampiran {
                 display: none;
             }
+
+            pre{
+                border: none !important;
+            }
         }
     </style>
     <link rel="stylesheet" href="css/style.css">
