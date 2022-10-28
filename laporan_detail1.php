@@ -110,13 +110,13 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        .laporan-detail p {
+        .laporan-detail p, pre {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 0px !important;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-
+        
         table {
             margin: 20px auto;
             border-collapse: collapse;
@@ -287,10 +287,18 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                         foreach ($progres as $p) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
-                                <td><?= $p['permasalahan'] ?></td>
-                                <td><?= $p['ringkasan'] ?></td>
-                                <td><?= $p['progress'] ?></td>
-                                <td><?= $p['isu'] ?></td>
+                                <td>
+                                    <pre><?= $p['permasalahan'] ?></pre>
+                                </td>
+                                <td>
+                                    <pre><?= $p['ringkasan'] ?></pre>
+                                </td>
+                                <td>
+                                    <pre><?= $p['progress'] ?></pre>
+                                </td>
+                                <td>
+                                    <pre><?= $p['isu'] ?></pre>
+                                </td>
                                 <td class="history">
                                     <li><a href="update_progress1.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
                                     <li><a href="history1.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">History</a></li>
@@ -331,8 +339,12 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                         foreach ($kronologis as $k) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
-                                <td><?php echo $k['tanggal'] ?></td>
-                                <td><?= $k['perihal'] ?></td>
+                                <td>
+                                    <pre><?php echo $k['tanggal'] ?></pre>
+                                </td>
+                                <td>
+                                    <pre><?= $k['perihal'] ?></pre>
+                                </td>
                                 <td><?php if ($k['dokumen'] == 'ada') {
                                         echo '√';
                                     } else {
@@ -388,6 +400,11 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
 
         </div>
     </section>
+    <script>
+        document.querySelector('textarea').addEventListener('keyup', function() {
+            document.querySelector('pre').innerText = this.value;
+        });
+    </script>
     <script src="jquery-3.1.1.min.js"></script>
     <script src="js.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
