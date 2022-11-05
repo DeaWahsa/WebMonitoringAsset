@@ -37,12 +37,12 @@
 
 		if($auth !== 0 AND $auth !== 0.5)
 		{
-			if($nik == '930357'){
+			if($nik == '930357' || $nik == '720357') {
 				if($user = query("SELECT * FROM user WHERE username = '$nik'")){
 					session_start();
 					$_SESSION['$login'] = $user;
 					$_SESSION['nik'] = $user['username'];
-					header("location: index.php?nik=$nik");
+					header("location: home.php?nik=$nik");
 					exit();
 				}else{
 					return [

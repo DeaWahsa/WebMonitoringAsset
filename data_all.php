@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['$login'])) {
+    header("Location: index.php");
+    exit;
+}
+
 include 'function.php';
 $nik = $_GET['nik'];
 
@@ -268,6 +274,7 @@ $idp = query("SELECT DISTINCT periode FROM periode ORDER BY periode");
                 </table>
 
             </div>
+            <br>
         </div>
     </section>
     <!-- Script JS -->

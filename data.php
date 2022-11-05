@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['$login'])) {
+    header("Location: index.php");
+    exit;
+}
 include 'function.php';
 $nik = $_GET['nik'];
 $user = query("SELECT * FROM user WHERE username = '$nik'");

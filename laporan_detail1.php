@@ -1,5 +1,10 @@
 <?php
 error_reporting(0);
+session_start();
+if (!isset($_SESSION['$login'])) {
+    header("Location: index.php");
+    exit;
+}
 include 'function.php';
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
@@ -110,13 +115,14 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        .laporan-detail p, pre {
+        .laporan-detail p,
+        pre {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 0px !important;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-        
+
         table {
             margin: 20px auto;
             border-collapse: collapse;
@@ -219,7 +225,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                 display: none;
             }
 
-            pre{
+            pre {
                 border: none !important;
             }
         }
@@ -292,16 +298,16 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td>
-                                    <pre><?= $p['permasalahan'] ?></pre>
+                                    <?= $p['permasalahan'] ?>
                                 </td>
                                 <td>
-                                    <pre><?= $p['ringkasan'] ?></pre>
+                                    <?= $p['ringkasan'] ?>
                                 </td>
                                 <td>
-                                    <pre><?= $p['progress'] ?></pre>
+                                    <?= $p['progress'] ?>
                                 </td>
                                 <td>
-                                    <pre><?= $p['isu'] ?></pre>
+                                    <?= $p['isu'] ?>
                                 </td>
                                 <td class="history">
                                     <li><a href="update_progress1.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
@@ -344,10 +350,10 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td>
-                                    <pre><?php echo $k['tanggal'] ?></pre>
+                                    <?php echo $k['tanggal'] ?>
                                 </td>
                                 <td>
-                                    <pre><?= $k['perihal'] ?></pre>
+                                    <?= $k['perihal'] ?>
                                 </td>
                                 <td><?php if ($k['dokumen'] == 'ada') {
                                         echo '√';
@@ -391,7 +397,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
 
                 <?php
                 $kronol = querys("SELECT * FROM kronologis WHERE periode = '$per' AND lampiran != ''"); ?>
-                <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
+
                 <?php foreach ($kronol as $kr) : ?>
                     <div class="lampiran">
                         <ul>

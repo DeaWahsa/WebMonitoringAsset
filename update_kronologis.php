@@ -177,7 +177,7 @@ if (isset($_POST['update'])) {
                     <a href="laporan_detail.php?id=<?= $idu ?>&nik=<?= $nik ?>&periode=<?= $periode ?>" class="btn back" aria-hidden="true">Back</a>
                 </li> 
                 <li class="name nav-item">
-                    <a href="login.php" class="btn" aria-hidden="true">Sign Out</a>
+                    <a href="index.php" class="btn" aria-hidden="true">Sign Out</a>
                 </li>      
             </ul>      
         </div>

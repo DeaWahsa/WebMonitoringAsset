@@ -166,7 +166,7 @@ if (isset($_POST['Submit'])) {
                     <a href="data.php" class="btn back" aria-hidden="true">Back</a>
                 </li> 
                 <li class="name nav-item">
-                    <a href="login.php" class="btn" aria-hidden="true">Sign Out</a>
+                    <a href="index.php" class="btn" aria-hidden="true">Sign Out</a>
                 </li>      
             </ul>      
         </div>

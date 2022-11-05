@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['$login'])) {
+    header("Location: index.php");
+    exit;
+}
 include 'function.php';
 $conn = koneksi();
 $nik = $_GET['nik'];
@@ -130,7 +134,7 @@ if (isset($_POST['delete'])) {
         table {
             margin: 20px auto;
             border-collapse: collapse;
-            width: 1200px;
+            max-width: 1200px;
         }
 
         table th {
