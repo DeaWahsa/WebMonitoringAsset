@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['$login'])) {
-    header("Location: index.php");
-    exit;
-}
+
 include 'function.php';
 $conn = koneksi();
 $nik = $_GET['nik'];
@@ -32,18 +28,20 @@ if (isset($_POST['delete'])) {
 
 
     <!-- CSS only -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/style.css" media="print">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://kit.fontawesome.com/fe8876d200.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    
     <style>
         body {
             font-family: 'Noto Serif', serif;
         }
 
         .box-laporan {
-            margin-left: 20%;
             font-size: 25px;
         }
 
@@ -134,7 +132,7 @@ if (isset($_POST['delete'])) {
         table {
             margin: 20px auto;
             border-collapse: collapse;
-            max-width: 1200px;
+            width: 1200px;
         }
 
         table th {
@@ -227,8 +225,15 @@ if (isset($_POST['delete'])) {
             pre {
                 border: none !important;
             }
-        }
+            @page {
+                size: A4 landscape;
+            }
 
+            thead { display:table-header-group }
+
+
+        }
+        
         .lampiran ul li {
             list-style: none;
             background: #fefefe;
@@ -239,7 +244,7 @@ if (isset($_POST['delete'])) {
             font-size: 12px;
         }
     </style>
-    <link rel="stylesheet" href="css/style.css">
+    
 </head>
 
 <body>
@@ -258,10 +263,10 @@ if (isset($_POST['delete'])) {
                         $tanggal = query("SELECT * FROM progress_permasalahan WHERE id_unit = '$id' LIMIT 1");
                         $tgl = $tanggal['periode'];
                         ?>
-                        <li class="nav-item nav"><a class="nav1" href="tambah.php?id=<?= $id ?>&periode=<?= $per ?>">Input</a></li>
+                        <li class="nav-item nav tambah"><a class="nav1" href="tambah.php?id=<?= $id ?>&nik=<?= $nik?>&periode=<?= $per ?>">Input</a></li>
 
-                        <li class="nav-item nav"><a class="nav1" href="delete.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= $per ?>">Delete</a></li>
-                        <li class="nav-item nav"><button style="background: none;outline: none; color:#e13838; font-weight: 600; border: none;" onclick="window.print();">Download</button></li>
+                        <li class="nav-item nav hapus"><a class="nav1" href="delete.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= $per ?>">Delete</a></li>
+                        <li class="nav-item nav download"><button style="background: none;outline: none; color:#e13838; font-weight: 600; border: none;" onclick="window.print();">Download</button></li>
                     </div>
 
                     <li class="name nav-item back">
@@ -275,7 +280,7 @@ if (isset($_POST['delete'])) {
         </nav>
 
 
-        <div class="laporan print">
+        <div class="laporan print" id="example">
             <div class="laporan-detail">
                 <h1>PROGRESS PENANGANAN PERMASALAHAN ASET TELKOM <br>(LITIGASI, NON LITIGASI, BERPOTENSI BERMASALAH)</h1>
                 <br>
@@ -292,31 +297,30 @@ if (isset($_POST['delete'])) {
                     <?php $progres = query("SELECT * FROM progress_permasalahan WHERE periode = '$per' AND id_unit = '$id' LIMIT 1") ?>
                     <p>: <?= $progres['periode'] ?></p>
                 </div>
-                <table border="1">
-                    <tr>
+                <table border="1" id="example" class="display nowrap">
+                    <thead>
                         <th>No</th>
                         <th>Permasalahan & Kategori Permasalahan*</th>
                         <th>Ringkasan Permasalahan**</th>
                         <th>Progress Penanganan & Rencana Tindak Lanjut***</th>
                         <th>Isu Penting</th>
                         <th class="aksi">Aksi</th>
-                    </tr>
+                    </thead>
                     <?php $i = 1;
                     $progres = querys("SELECT * FROM progress_permasalahan WHERE periode = '$per' AND id_unit = '$id'");
                     foreach ($progres as $p) : ?>
-                        <tr>
                             <td><?= $i++ ?></td>
-                            <td>
-                                <pre><?= $p['permasalahan'] ?></pre>
+                            <td align=left valign=top>
+                                <?= nl2br($p['permasalahan']) ?>
                             </td>
-                            <td>
-                                <pre><?= $p['ringkasan'] ?></pre>
+                            <td align=left valign=top>
+                            <?= nl2br($p['ringkasan']) ?>
                             </td>
-                            <td>
-                                <pre><?= $p['progress'] ?></pre>
+                            <td align=left valign=top>
+                            <?= nl2br($p['progress']) ?>
                             </td>
-                            <td>
-                                <pre><?= $p['isu'] ?></pre>
+                            <td align=left valign=top>
+                            <?= nl2br($p['isu']) ?>
                             </td>
                             <td class="history">
                                 <li><a href="update_progress.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
@@ -339,28 +343,30 @@ if (isset($_POST['delete'])) {
                     <br>
 
                     <table border="1">
-                        <tr>
+                        <thead>
+                            <tr>
                             <th rowspan="2">No</th>
                             <th rowspan="2">Tanggal</th>
                             <th rowspan="2">Perihal dan Keterangan</th>
                             <th colspan="2">Dokumen Pendukung**</th>
                             <th colspan="2">Status Dokumen***</th>
                             <th class="aksi" rowspan="2">Aksi</th>
-                        </tr>
+                            </tr>
                         <tr>
                             <th>Ada</th>
                             <th>Tidak Ada</th>
                             <th>Asli</th>
                             <th>Copy</th>
                         </tr>
+                        </thead>
                         <?php $i = 1;
 
                         foreach ($krono as $k) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td><?php echo $k['tanggal'] ?></td>
-                                <td>
-                                    <pre><?= $k['perihal'] ?></pre>
+                                <td align=left valign=top>
+                                <?= nl2br($k['perihal']) ?>
                                 </td>
                                 <td><?php if ($k['dokumen'] == 'ada') {
                                         echo '√';
@@ -410,14 +416,38 @@ if (isset($_POST['delete'])) {
             <?php } ?>
         </div>
     </section>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
     <script>
         document.querySelector('textarea').addEventListener('keyup', function() {
             document.querySelector('pre').innerText = this.value;
         });
+
+        $(document).ready(function() {
+            $('#example').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+        } );
+} );
     </script>
     <script src="jquery-3.1.1.min.js"></script>
     <script src="js.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+   <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
 

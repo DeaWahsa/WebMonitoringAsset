@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Nov 2022 pada 02.30
--- Versi server: 10.4.22-MariaDB
--- Versi PHP: 7.4.28
+-- Generation Time: Oct 20, 2022 at 04:05 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `filter`
+-- Table structure for table `filter`
 --
 
 CREATE TABLE `filter` (
@@ -36,7 +36,7 @@ CREATE TABLE `filter` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history`
+-- Table structure for table `history`
 --
 
 CREATE TABLE `history` (
@@ -52,7 +52,7 @@ CREATE TABLE `history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `history`
+-- Dumping data for table `history`
 --
 
 INSERT INTO `history` (`id_history`, `permasalahan`, `ringkasan`, `progress`, `isu`, `ket`, `last_edit`, `id_progress`, `id_unit`) VALUES
@@ -62,13 +62,12 @@ INSERT INTO `history` (`id_history`, `permasalahan`, `ringkasan`, `progress`, `i
 (5, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka', 'Edited: ', '2022-10-18 03:42:01', 12, 9),
 (6, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka', 'Edited: ', '2022-10-20 01:22:11', 12, 9),
 (7, 'tidak ada', 'tidak ada', 'tidak ada', 'tidak ada', 'Added: ', '2022-10-20 01:41:45', 9, 9),
-(8, 'ada', 'ada', 'ada', 'ada', 'Added: ', '2022-10-20 01:41:36', 9, 9),
-(9, 'isjcosac', 'ieuhci', 'csdcv', 'dcvds', 'Added: ', '2022-10-20 03:24:45', 0, 0);
+(8, 'ada', 'ada', 'ada', 'ada', 'Added: ', '2022-10-20 01:41:36', 9, 9);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history_kronologis`
+-- Table structure for table `history_kronologis`
 --
 
 CREATE TABLE `history_kronologis` (
@@ -85,7 +84,7 @@ CREATE TABLE `history_kronologis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `history_kronologis`
+-- Dumping data for table `history_kronologis`
 --
 
 INSERT INTO `history_kronologis` (`id_history`, `tanggal`, `perihal`, `dokumen`, `status`, `lampiran`, `ket`, `last_edit`, `id_kronologis`, `id_unit`) VALUES
@@ -94,7 +93,7 @@ INSERT INTO `history_kronologis` (`id_history`, `tanggal`, `perihal`, `dokumen`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kronologis`
+-- Table structure for table `kronologis`
 --
 
 CREATE TABLE `kronologis` (
@@ -109,7 +108,7 @@ CREATE TABLE `kronologis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `kronologis`
+-- Dumping data for table `kronologis`
 --
 
 INSERT INTO `kronologis` (`id_kronologis`, `periode`, `id_unit`, `tanggal`, `perihal`, `dokumen`, `statuss`, `lampiran`) VALUES
@@ -117,13 +116,12 @@ INSERT INTO `kronologis` (`id_kronologis`, `periode`, `id_unit`, `tanggal`, `per
 (7, 'Oktober 2022', 1, '11 October 2022', 'permsalahan', 'tidak ada', 'copy', '634e247f754a9.'),
 (8, 'September 2022', 9, '1976', 'Sertifikat Hak Guna Bangunan Nomor 4\r\nPada pokoknya menerangkan bahwa dengan luas 10.695 m^2 sebagaimana termaktub dalam Gambar Situasi yang iterbitkan', 'ada', 'copy', ''),
 (9, 'September 2022', 9, '1976', 'tidak ada', 'tidak ada', 'copy', ''),
-(10, 'September 2022', 9, 'ada', 'ada', 'tidak ada', 'copy', ''),
-(11, 'opjspjpf', 0, 'dvxxv', 'dvcdsc', 'tidak ada', 'asli', '');
+(10, 'September 2022', 9, 'ada', 'ada', 'tidak ada', 'copy', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `laporan`
+-- Table structure for table `laporan`
 --
 
 CREATE TABLE `laporan` (
@@ -135,7 +133,7 @@ CREATE TABLE `laporan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `laporan`
+-- Dumping data for table `laporan`
 --
 
 INSERT INTO `laporan` (`id_laporan`, `id_progress`, `id_kronologis`, `id_unit`, `id_periode`) VALUES
@@ -144,7 +142,7 @@ INSERT INTO `laporan` (`id_laporan`, `id_progress`, `id_kronologis`, `id_unit`, 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `periode`
+-- Table structure for table `periode`
 --
 
 CREATE TABLE `periode` (
@@ -154,18 +152,17 @@ CREATE TABLE `periode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `periode`
+-- Dumping data for table `periode`
 --
 
 INSERT INTO `periode` (`id_periode`, `periode`, `id_unit`) VALUES
 (3, 'Oktober 2022', 1),
-(6, 'September 2022', 9),
-(7, 'January 1970', 0);
+(6, 'September 2022', 9);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `progress_permasalahan`
+-- Table structure for table `progress_permasalahan`
 --
 
 CREATE TABLE `progress_permasalahan` (
@@ -179,7 +176,7 @@ CREATE TABLE `progress_permasalahan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `progress_permasalahan`
+-- Dumping data for table `progress_permasalahan`
 --
 
 INSERT INTO `progress_permasalahan` (`id_progress`, `periode`, `id_unit`, `permasalahan`, `ringkasan`, `progress`, `isu`) VALUES
@@ -188,13 +185,12 @@ INSERT INTO `progress_permasalahan` (`id_progress`, `periode`, `id_unit`, `perma
 (11, 'Oktober 2022', 1, 'permasalahan dan kategori permasalahan', 'ringkasan permsalahan', 'progress penanganan', 'isu'),
 (12, 'September 2022', 9, 'Permasalahan status Tanah jl.Palapa, Kendari dengan TNI AD (Witel Sultra)\r\n\r\nNon Litigasi', 'Korem 143 Halu Oleo mengirimkan Suart Nomor: B/2/II/2022/Kum tanggal 14 Februari 2022 perihal perminataan pertemuan untuk musyawarah dalam rangka penyelesaian permasalahan tanah milik TNI AD yang bersertifikat', 'Pada tanggal 23 februari 2022 telah dilakukan pertemuan awal antara Korem 143', 'Pihak Korem beralasan bahwa mereka merupakan pemilik yang sah atas tanah tersebut hanya berdasarkan dokumen cararan aset internal mereka'),
 (13, 'September 2022', 9, 'tidak ada', 'tidak ada', 'tidak ada', 'tidak ada'),
-(14, 'September 2022', 9, 'ada', 'ada', 'ada', 'ada'),
-(15, 'opjspjpf', 0, 'isjcosac', 'ieuhci', 'csdcv', 'dcvds');
+(14, 'September 2022', 9, 'ada', 'ada', 'ada', 'ada');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `unit`
+-- Table structure for table `unit`
 --
 
 CREATE TABLE `unit` (
@@ -203,7 +199,7 @@ CREATE TABLE `unit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `unit`
+-- Dumping data for table `unit`
 --
 
 INSERT INTO `unit` (`id_unit`, `nama_unit`) VALUES
@@ -221,7 +217,7 @@ INSERT INTO `unit` (`id_unit`, `nama_unit`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -233,7 +229,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `Nama`, `username`, `id_unit`, `last_login`) VALUES
@@ -252,133 +248,132 @@ INSERT INTO `user` (`id_user`, `Nama`, `username`, `id_unit`, `last_login`) VALU
 (14, 'Abdul Wahab Golib', '970186', 4, '2022-10-09 01:33:10'),
 (15, 'Abraham Tangdialla', '990049', 2, '2022-10-09 01:33:10'),
 (16, 'Abraham Tangdialla', '740075', 2, '2022-10-09 01:33:10'),
-(17, 'Makmur Hafiedz', '670339', 1, '2022-10-09 01:33:10'),
-(18, 'Sumadi', '720357', 10, '2022-11-03 02:16:57');
+(17, 'Makmur Hafiedz', '670339', 1, '2022-10-09 01:33:10');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `filter`
+-- Indexes for table `filter`
 --
 ALTER TABLE `filter`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `history`
+-- Indexes for table `history`
 --
 ALTER TABLE `history`
   ADD PRIMARY KEY (`id_history`);
 
 --
--- Indeks untuk tabel `history_kronologis`
+-- Indexes for table `history_kronologis`
 --
 ALTER TABLE `history_kronologis`
   ADD PRIMARY KEY (`id_history`);
 
 --
--- Indeks untuk tabel `kronologis`
+-- Indexes for table `kronologis`
 --
 ALTER TABLE `kronologis`
   ADD PRIMARY KEY (`id_kronologis`);
 
 --
--- Indeks untuk tabel `laporan`
+-- Indexes for table `laporan`
 --
 ALTER TABLE `laporan`
   ADD PRIMARY KEY (`id_laporan`);
 
 --
--- Indeks untuk tabel `periode`
+-- Indexes for table `periode`
 --
 ALTER TABLE `periode`
   ADD PRIMARY KEY (`id_periode`);
 
 --
--- Indeks untuk tabel `progress_permasalahan`
+-- Indexes for table `progress_permasalahan`
 --
 ALTER TABLE `progress_permasalahan`
   ADD PRIMARY KEY (`id_progress`),
   ADD KEY `id_unit` (`id_unit`);
 
 --
--- Indeks untuk tabel `unit`
+-- Indexes for table `unit`
 --
 ALTER TABLE `unit`
   ADD PRIMARY KEY (`id_unit`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `id_unit` (`id_unit`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `filter`
+-- AUTO_INCREMENT for table `filter`
 --
 ALTER TABLE `filter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `history`
+-- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `history_kronologis`
+-- AUTO_INCREMENT for table `history_kronologis`
 --
 ALTER TABLE `history_kronologis`
   MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `kronologis`
+-- AUTO_INCREMENT for table `kronologis`
 --
 ALTER TABLE `kronologis`
-  MODIFY `id_kronologis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_kronologis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `laporan`
+-- AUTO_INCREMENT for table `laporan`
 --
 ALTER TABLE `laporan`
   MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `periode`
+-- AUTO_INCREMENT for table `periode`
 --
 ALTER TABLE `periode`
-  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `progress_permasalahan`
+-- AUTO_INCREMENT for table `progress_permasalahan`
 --
 ALTER TABLE `progress_permasalahan`
-  MODIFY `id_progress` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_progress` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT untuk tabel `unit`
+-- AUTO_INCREMENT for table `unit`
 --
 ALTER TABLE `unit`
   MODIFY `id_unit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `unit`
+-- Constraints for table `unit`
 --
 ALTER TABLE `unit`
   ADD CONSTRAINT `unit_ibfk_1` FOREIGN KEY (`id_unit`) REFERENCES `user` (`id_unit`);

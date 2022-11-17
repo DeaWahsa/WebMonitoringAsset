@@ -14,6 +14,7 @@ body {
   outline: none;
 }
 
+
 .main{
   width: 100%;
   min-height: 100vh;
@@ -22,6 +23,13 @@ body {
   background-repeat: no-repeat;
 }
 
+.nav-item.nav button{
+  background: none;
+  outline: none;
+  color: #e13838;
+  font-weight: 600;
+  border: none;
+}
 .social-login img{
   float: right;
   display: block;
@@ -208,7 +216,7 @@ color:#E13838 !important;
 }
 
 .box-laporan{
-  margin-left: 20%;
+  padding: 0px 20px;
   font-size: 25px;
 }
 
@@ -286,6 +294,7 @@ table th{
   font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 table td{
+  padding: 5px 10px;
   border: 1px solid black;
   text-align: center;
   font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -335,4 +344,126 @@ li.name.nav-item.back {
   margin: 10px 50px;
   padding: 5px 15px;
   border-radius: 10px;
+}
+
+
+@media screen and (max-width: 760px){
+  .home-item{
+      flex-direction: column !important;
+  }
+
+  .home-right{
+      padding: 0px 20px;
+  }
+
+  .navbar .collapse ul li{
+      margin-right: 0px !important;
+  }
+
+  .data-item{
+    min-width: 1000px;
+  }
+
+  .data-item .form-group label{
+    width: 100px;
+  }
+
+  .data-item .form-group .col-sm-10.col-md-4.col-lg-3{
+    width: 250px;
+  }
+
+  .nav-item.nav button, li.nav-item.nav.tambah{
+    background: #E13838 !important;
+    padding: 5px 20px;
+    margin-left: auto;
+    border-radius: 50px;
+    width: 100%;
+    color: white !important;
+    margin-bottom: 10px;
+  }
+
+  li.nav-item.nav.tambah a, .nav-item.nav-item.nav.download a{
+    color: white !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  li.nav-item.nav.hapus a{
+    text-align: center;
+    width: 100%;
+  }
+  .nav-item.nav.hapus{
+    margin-bottom: 10px;
+    background: none !important;
+    border: 2px #e13838 solid !important;
+  }
+  li.name.nav-item.back{
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .navbar .collapse ul li{
+    margin-right: 0px !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .create-item form{
+    margin: 10px auto !important;
+  }
+
+  .title input[type=checkbox]{
+    width: 20px !important;
+  }
+  .title textarea, .title input, input.forum.forum1{
+    width: 100% !important;
+  }
+}
+
+@media screen and (min-width: 761px) and (max-width: 1200px){
+  .navbar .collapse ul li{
+      margin-right: 0px !important;
+      width: 100%;
+      text-align: center;
+  }
+
+  .box-laporan{
+    padding: 0px 30px;
+  }
+
+  .nav-item.nav button, li.nav-item.nav.tambah,.nav-item.nav.download{
+    background: #E13838 !important;
+    padding: 5px 20px;
+    margin-left: auto;
+    border-radius: 50px;
+    width: 100%;
+    color: white !important;
+    margin-bottom: 10px;
+  }
+
+  li.nav-item.nav.tambah a, .nav-item.nav-item.nav.download a{
+    color: white !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  li.nav-item.nav.hapus a{
+    text-align: center;
+    width: 100%;
+  }
+  .nav-item.nav.hapus{
+    margin-bottom: 10px;
+    background: none !important;
+    border: 2px #e13838 solid !important;
+  }
+  li.name.nav-item.back{
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .title input[type=checkbox]{
+    width: 20px !important;
+  }
+  .title textarea, .title input, input.forum.forum1{
+    width: 100% !important;
+  }
 }

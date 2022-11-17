@@ -1,8 +1,12 @@
 <?php
 
 require 'function.php';
-$nik = $_GET['id'];
-$user = query("SELECT * FROM user WHERE id_unit = '$nik'");
+$id = $_GET['id'];
+$nik = $_GET['nik'];
+$periode = $_GET['periode'];
+$unit = query("SELECT * FROM `user` WHERE username = '$nik' LIMIT 1");
+$idu = $unit['id_unit'];
+$user = query("SELECT * FROM user WHERE id_unit = '$id'");
 if (isset($_POST['Submit'])) {
   if (TambahData1($_POST) > 0) {
     header("Location:laporan_detail.php?id=$nik");
@@ -22,12 +26,12 @@ if (isset($_POST['Submit'])) {
     <link rel="stylesheet" href="css/style.css">
     
     <!-- CSS only -->
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <style>
         .box-laporan{
-            margin-left: 20%;
             font-size: 25px;
         }
         .box-laporan ul li{
@@ -163,10 +167,10 @@ if (isset($_POST['Submit'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="name nav-item back">
-                    <a href="data.php" class="btn back" aria-hidden="true">Back</a>
+                    <a href="laporan_detail.php?id=<?= $idu ?>&nik=<?= $nik ?>&periode=<?= $periode ?>" class="btn back" aria-hidden="true">Back</a>
                 </li> 
                 <li class="name nav-item">
-                    <a href="index.php" class="btn" aria-hidden="true">Sign Out</a>
+                    <a href="logout.php" class="btn" aria-hidden="true">Sign Out</a>
                 </li>      
             </ul>      
         </div>
@@ -212,7 +216,7 @@ if (isset($_POST['Submit'])) {
               <p class="titik">:</p>
               <div class="cek">
                 <input type="checkbox" name="dokumen" id="" <?php if (isset($dokumen) && $dokumen=="ada") echo "checked";?> value="ada">&nbsp; Ada &nbsp; &nbsp; 
-                <input type="checkbox" name="dokumen" id="" <?php if (isset($dokumen) && $dokumen=="tidak ada") echo "checked";?> value="tidak ada">&nbsp; Tidak Ada
+                <br><input type="checkbox" name="dokumen" id="" <?php if (isset($dokumen) && $dokumen=="tidak ada") echo "checked";?> value="tidak ada">&nbsp; Tidak Ada
               </div>
             </div>
             <div class="title d-flex">
@@ -220,7 +224,7 @@ if (isset($_POST['Submit'])) {
               <p class="titik">:</p>
               <div class="cek">
                 <input type="checkbox" name="status" id="" <?php if (isset($status) && $status=="asli") echo "checked";?> value="asli">&nbsp; Asli &nbsp; &nbsp; 
-                <input type="checkbox" name="status" id="" <?php if (isset($status) && $status=="copy") echo "checked";?> value="copy">&nbsp; Copy
+                <br><input type="checkbox" name="status" id="" <?php if (isset($status) && $status=="copy") echo "checked";?> value="copy">&nbsp; Copy
               </div>
             </div>
             <div class="title d-flex">
@@ -245,5 +249,12 @@ if (isset($_POST['Submit'])) {
             $('input[name="' + this.name + '"]').not(this).prop('checked', false);
         });
     </script>
+
+     <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 </body>
 </html>

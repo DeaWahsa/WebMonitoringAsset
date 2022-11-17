@@ -1,10 +1,5 @@
 <?php
 error_reporting(0);
-session_start();
-if (!isset($_SESSION['$login'])) {
-    header("Location: index.php");
-    exit;
-}
 include 'function.php';
 $nik = $_GET['nik'];
 $per = $_GET['periode'];
@@ -29,13 +24,13 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
     <script src="https://kit.fontawesome.com/fe8876d200.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css" media="print">
     <link rel="stylesheet" href="print.css" media="print">
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: 'Noto Serif', serif;
         }
 
         .box-laporan {
-            margin-left: 20%;
             font-size: 25px;
         }
 
@@ -115,14 +110,13 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
 
-        .laporan-detail p,
-        pre {
+        .laporan-detail p, pre {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 0px !important;
             font-family: "Cambria", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-
+        
         table {
             margin: 20px auto;
             border-collapse: collapse;
@@ -219,16 +213,23 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
 
         @media print {
 
-            th.aksi,
-            td.history,
-            .lampiran {
-                display: none;
-            }
+th.aksi,
+td.history,
+.lampiran {
+    display: none;
+}
 
-            pre {
-                border: none !important;
-            }
-        }
+pre {
+    border: none !important;
+}
+@page {
+    size: A4 landscape;
+}
+
+thead { display:table-header-group }
+
+
+}
     </style>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -245,7 +246,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <div class="collapse1 navbar-collapse" id="navbarNav">
-                        <li class="nav-item nav"><button style="background: none;outline: none; color:#e13838; font-weight: 600; border: none;" onclick="window.print();">Download</button></li>
+                        <li class="nav-item nav"><button class="btn-download"  onclick="window.print();">Download</button></li>
                     </div>
                     <li class="name nav-item back">
                         <a href="data_all.php?nik=<?= $nik ?>" class="btn back" aria-hidden="true">Back</a>
@@ -284,6 +285,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                         <p>: <?= $p['periode'] ?></p>
                     </div>
                     <table border="1">
+                        <thead>
                         <tr class="th" bgcolor='#e13838'>
                             <th>No</th>
                             <th>Permasalahan & Kategori Permasalahan*</th>
@@ -292,22 +294,23 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                             <th>Isu Penting</th>
                             <th class="aksi">Aksi</th>
                         </tr>
+                        </thead>
                         <?php $i = 1;
                         $progres = querys("SELECT * FROM progress_permasalahan WHERE id_unit = $u and periode LIKE '%$per%' ");
                         foreach ($progres as $p) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td>
-                                    <?= $p['permasalahan'] ?>
+                                <?= nl2br($p['permasalahan']) ?>
                                 </td>
                                 <td>
-                                    <?= $p['ringkasan'] ?>
+                                    <?= nl2br($p['ringkasan']) ?>
                                 </td>
                                 <td>
-                                    <?= $p['progress'] ?>
+                                <?= nl2br($p['progress']) ?>
                                 </td>
                                 <td>
-                                    <?= $p['isu'] ?>
+                                <?= nl2br($p['isu']) ?>
                                 </td>
                                 <td class="history">
                                     <li><a href="update_progress1.php?id=<?= $p['id_progress'] ?>&nik=<?= $nik ?>&periode=<?= $p['periode'] ?>">Update</a></li>
@@ -329,6 +332,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                     <br>
 
                     <table border="1">
+                        <thead>
                         <tr>
                             <th rowspan="2">No</th>
                             <th rowspan="2">Tanggal</th>
@@ -343,6 +347,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                             <th>Asli</th>
                             <th>Copy</th>
                         </tr>
+                        </thead>
                         <?php $i = 1;
                         $u = $k['id_unit'];
                         $kronologis = querys("SELECT * FROM kronologis WHERE id_unit = $u and periode LIKE '%$per%'");
@@ -353,7 +358,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
                                     <?php echo $k['tanggal'] ?>
                                 </td>
                                 <td>
-                                    <?= $k['perihal'] ?>
+                                <?= nl2br($k['perihal']) ?>
                                 </td>
                                 <td><?php if ($k['dokumen'] == 'ada') {
                                         echo '√';
@@ -397,7 +402,7 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
 
                 <?php
                 $kronol = querys("SELECT * FROM kronologis WHERE periode = '$per' AND lampiran != ''"); ?>
-
+                <p style="font-weight: 600; margin-left: 30px">Lampiran :</p>
                 <?php foreach ($kronol as $kr) : ?>
                     <div class="lampiran">
                         <ul>
@@ -418,6 +423,11 @@ $periode = query("SELECT * FROM progress_permasalahan WHERE periode LIKE '%$per%
     <script src="jquery-3.1.1.min.js"></script>
     <script src="js.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+   <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
 

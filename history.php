@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['$login'])) {
-    header("Location: index.php");
-    exit;
-}
+
 include 'function.php';
 $id = $_GET['id'];
 $nik = $_GET['nik'];
@@ -11,7 +7,7 @@ $user = query("SELECT * FROM user WHERE username = $nik");
 $idu = $user['id_unit'];
 $per = $_GET['periode'];
 $conn = koneksi();
-$history = mysqli_query($conn, "SELECT * FROM history WHERE id_progress = $id ORDER BY id_history DESC");
+$history = mysqli_query($conn, "SELECT * FROM history WHERE id_progress = $id");
 $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
 ?>
 
@@ -275,7 +271,7 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
                     $nama = $names['nama_unit'];
                     ?>
                     <p class="nama"><i class="fa fa-user"></i> <?php echo $nama  ?></p>
-                    <p class="tanggal"><?php echo $h['ket'] ?> <?= date("l, j F Y, H:i A", strtotime($h["last_edit"])) ?></p>
+                    <p class="tanggal"><?php echo $h['Ket'] ?> <?= date("l, j F Y, H:i A", strtotime($h["last_edit"])) ?></p>
 
                     <table border="1">
                         <tr class="th" bgcolor='#e13838'>
@@ -299,6 +295,11 @@ $now = query("SELECT * FROM progress_permasalahan WHERE id_progress = $id");
             <br>
 
         </div>
+   <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
 

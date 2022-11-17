@@ -50,6 +50,8 @@ function login($data)
     
     if ($user = query("SELECT * FROM user WHERE username = '$username'")) {
         error_reporting(0);
+        session_start();
+          
         $nama = $user['nama'];
         $last = "UPDATE user SET last_login = CURRENT_TIMESTAMP() WHERE Nama = '$nama'";
         mysqli_query($conn, $last);
@@ -121,17 +123,11 @@ function TambahData1($data)
     $lampiran = $_FILES['file']['name'];
     move_uploaded_file($_FILES['file']['tmp_name'], $direktori . $lampiran);
 
-    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
-    mysqli_query($conn, $update);
-
     $query_laporan = "INSERT INTO progress_permasalahan VALUES ('', '$periode', '$id', '$permasalahan', '$ringkasan', '$progress', '$isu')";
     mysqli_query($conn, $query_laporan);
 
     $query_kronologis = "INSERT INTO kronologis VALUES ('', '$periode', '$id', '$tanggal', '$perihal', '$cek', '$status', '$lampiran')";
     mysqli_query($conn, $query_kronologis);
-
-    $update = "INSERT into history_kronologis VALUES ('','$tanggal', '$perihal', '$cek', '$status', 'Added: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
-    mysqli_query($conn, $update);
 
     header("Location:laporan_detail.php?id=$id&nik=$nik&periode=$periode");
 }
@@ -148,18 +144,18 @@ function updateProgress($id){
     $ringkasan = $_POST['ringkasan'];
     $progress = $_POST['progress'];
     $isu = $_POST['isu'];
+
+    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
+    mysqli_query($conn, $update);
+
     $query = "UPDATE progress_permasalahan SET 
                 permasalahan = '$permasalahan',
                 ringkasan = '$ringkasan',
                 progress = '$progress',
                 isu = '$isu' WHERE id_progress = '$id'";
-    mysqli_query($conn, $query) or die (mysqli_error($conn));
+    mysqli_query($conn, $query);
 
-    $update = "INSERT into history VALUES ('','$permasalahan', '$ringkasan', '$progress', '$isu', 'Edited: ', CURRENT_TIMESTAMP(), '$id', '$idu')";
-    mysqli_query($conn, $update);
-
-    return mysqli_affected_rows($conn);
-    header("Location:laporan_detail.php?id=<?= $id ?>&nik=<?= $nik ?>&periode=<?= date('j F Y', strtotime($per)) ?>");
+    header("Location:laporan_detail.php?id=$id&nik=$nik&periode=$per");
 }
 
 function updateProgress1($id)
